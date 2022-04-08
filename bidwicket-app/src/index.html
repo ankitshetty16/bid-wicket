@@ -100,6 +100,9 @@
             .padding-top {
                 padding-top: 50px;
             }
+            .padding-bottom {
+                padding-bottom: 50px;
+            }            
             .align-center{
                 text-align: center;
             }
@@ -144,6 +147,23 @@
                 width: 40%;
             }
 
+            .head-img{
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                width: 60%;                
+            }
+            .sold-width{
+                width: 52% !important;
+            }
+            .sub-img{
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                width: 40%; 
+                padding: 90px;
+            }
+
             button {
                 margin: 35px 0px 10px 0px;
                 padding: 0.8em 1.8em;
@@ -184,6 +204,12 @@
                 color: #FFFFFF;
             }
 
+            button:disabled,
+            button[disabled]{
+                color: #FFFFFF;
+                background: #242124;
+            }           
+
             footer {
                 position:fixed;
                 left: 0;
@@ -195,7 +221,123 @@
                 text-align: center;
                 /* padding: 50px 0px 50px 0px; */
             }
-            
+
+            /* CSS for registration screen */
+            .register-container {
+                min-height: 600px;
+            }
+            .register-block-large {
+                width : 100%;
+            } 
+            .register-card {
+                margin: 0px 70px 0px 90px;
+                border-radius: 25px;
+                box-shadow: 0 -2px 10px rgba(0, 0, 0, 1);
+                background:#242124;;
+                color: #FFFFFF;
+                padding: 0px 0px 0px 70px;
+            }
+            .register-head{
+                color: #dc2f55;
+            }
+
+            .input-container {
+                height: 50px;
+                position: relative;
+                width: 100%;
+            }
+            .ic1 {
+                margin-top: 40px;
+            }
+
+            .ic2 {
+                margin-top: 30px;
+            }
+
+            .input {
+                border-radius: 12px;
+                border: 0;
+                box-sizing: border-box;
+                color: #000000;
+                font-size: 18px;
+                height: 100%;
+                outline: 0;
+                padding: 4px 20px 0;
+                width: 82%;
+            }
+
+            .cut {
+                background-color: #242124;
+                border-radius: 10px;
+                height: 20px;
+                left: 20px;
+                position: absolute;
+                top: -20px;
+                transform: translateY(0);
+                transition: transform 200ms;
+                width: 76px;
+            }
+
+            .cut-short {
+                width: 50px;
+            }
+
+            .input:focus ~ .cut,
+            .input:not(:placeholder-shown) ~ .cut {
+                transform: translateY(8px);
+            }
+
+            .placeholder {
+                color: #949494;
+                letter-spacing: 0.1rem;
+                left: 20px;
+                line-height: 14px;
+                pointer-events: none;
+                position: absolute;
+                transform-origin: 0 50%;
+                transition: transform 200ms, color 200ms;
+                top: 20px;
+            }
+
+            .input:focus ~ .placeholder,
+            .input:not(:placeholder-shown) ~ .placeholder {
+                transform: translateY(-30px) translateX(10px) scale(0.75);
+            }
+
+            .input:not(:placeholder-shown) ~ .placeholder {
+                color: #808097;
+            }
+
+            .input:focus ~ .placeholder {
+                color: #dc2f55;
+            }
+
+            .submit {
+                background-color: #dc2f55;
+                border-radius: 12px;
+                border: 0;
+                box-sizing: border-box;
+                color: #eee;
+                cursor: pointer;
+                font-size: 18px;
+                height: 50px;
+                margin-top: 38px;
+                margin-bottom: 30px;
+                text-align: center;
+                width: 82%;
+            }
+
+            .submit::before {
+                width: 0;
+                height: 800%;
+                position: absolute;
+                top: 100%;
+                transform: translate(-50%, -50%) rotate(45deg);
+                background: darkred;
+                transition: .5s ease;
+                display: block;
+                z-index: -1;
+            }            
         </style>
         
     </head>
@@ -225,26 +367,69 @@
                         </div>                       
                     </div>
                     <div class="container-contrast">
-                        <div class="heading-2 padding-top align-center">PLAYERS UP FOR GRABS</div>
+                        <img class="heading-2 padding-top align-center head-img"src="./images/players-available.png">
                         <div>
-                            <p class="heading-3 padding-top align-center">BATSMEN</p>
+                            <img class="sub-img padding-top align-center"src="./images/batsmen.png">
                             <div id="batsmen" class="bat-display"></div>
                         </div>
                         <div>
-                            <p class="heading-3 padding-top align-center">BOWLERS</p>
+                            <img class="sub-img padding-top align-center"src="./images/bowlers.png">
                             <div id="bowler" class="bowl-display"></div>
                         </div>
                         <div>
-                            <p class="heading-3 padding-top align-center">ALL ROUNDERS</p>
+                            <img class="sub-img padding-top align-center"src="./images/all-rounder.png">
                             <div id="all-rounder" class="all-display"></div>
                         </div>
                     </div>
                 </div>
                 <div id="purchases">
-                    view purchases
+                    <div class="container-contrast">
+                        <img class="heading-2 padding-top align-center head-img sold-width"src="./images/sold-players.png">
+                        <div>
+                            <img class="sub-img padding-top align-center"src="./images/batsmen.png">
+                            <div id="batsmen-sold" class="bat-display"></div>
+                        </div>
+                        <div>
+                            <img class="sub-img padding-top align-center"src="./images/bowlers.png">
+                            <div id="bowler-sold" class="bowl-display"></div>
+                        </div>
+                        <div>
+                            <img class="sub-img padding-top align-center"src="./images/all-rounder.png">
+                            <div id="all-rounder-sold" class="all-display"></div>
+                        </div>
+                    </div>
                 </div>
                 <div id="register">
-                    view register
+                    <div class="container register-container">
+                        <div class="box-6">
+                            <div class="heading">
+                                <img class="register-block-large"src="./images/player-registration.png">
+                            </div>
+                        </div>
+                        <div class="box-6">
+                            <div class="register-card">
+                                <p class="heading-3 padding-top register-head">PLAYER DETAIL FORM</p>
+                                    <div class="form">
+                                        <div class="input-container ic1">
+                                          <input id="firstname" class="input" type="text" placeholder=" " />
+                                          <div class="cut"></div>
+                                          <label for="firstname" class="placeholder">First name</label>
+                                        </div>
+                                        <div class="input-container ic2">
+                                          <input id="lastname" class="input" type="text" placeholder=" " />
+                                          <div class="cut"></div>
+                                          <label for="lastname" class="placeholder">Last name</label>
+                                        </div>
+                                        <div class="input-container ic2">
+                                          <input id="email" class="input" type="text" placeholder=" " />
+                                          <div class="cut cut-short"></div>
+                                          <label for="email" class="placeholder">Price</label>
+                                        </div>
+                                        <button type="text" class="submit">Register</button>
+                                    </div>
+                            </div>                           
+                        </div>                       
+                    </div>
                 </div> 
             </div> 
             <footer>
@@ -274,23 +459,30 @@
 
             // Script to display batsmen bowlers and allrounders
             function displayPlayers(){
-                var playerTypes = ['batsmen','bowler','all-rounder'];
-                fetch("data.json").then(response => {return response.json();})
+                if (view !='register'){
+                    viewMap = {
+                    'home': '',
+                    'purchases': '-sold'
+                    }
+                    var playerTypes = ['batsmen','bowler','all-rounder'];
+                    fetch("data.json").then(response => {return response.json();})
                     .then((playerInfo) => {
                         playerTypes.forEach((type,index) => {
                             var players = playerInfo[type];
                             parentRow = createDiv(index+1,"row");
-                            console.log(parentRow);
                             players.forEach((player,i)=>{
                                 column = createDiv(i+1,"column");
                                 card = createDiv(i+1,"card");
-                                card = generateCard(card,player);
-                                column.appendChild(card);
-                                parentRow.appendChild(column);
+                                if (view == "home" || view == "purchases" && player.sold != ""){
+                                    card = generateCard(card,player);
+                                    column.appendChild(card);
+                                    parentRow.appendChild(column);
+                                }
                             });
-                            document.getElementById(type).appendChild(parentRow);
+                            document.getElementById(type+viewMap[view]).appendChild(parentRow);
                         });
                     }); 
+                }
             }
 
             function createDiv(id,className){
@@ -308,10 +500,11 @@
 
                 genHead = document.createElement('h1');
                 genHead.innerHTML = player.name;
-
+                
                 genButton =  document.createElement('button');
-                genButton.innerHTML =  "Buy for "+player.price;
+                genButton.innerHTML =  player.sold == "" ? "Buy for "+player.price: "Sold for "+player.sold;
                 genButton.onclick = function(){buyPlayer(player.id)};
+                genButton.disabled = player.sold == ""  ? false : true; 
 
                 element.appendChild(genImg);
                 element.appendChild(genHead);

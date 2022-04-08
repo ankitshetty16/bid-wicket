@@ -3,66 +3,78 @@
         {
             "id":"bat_1",
             "name": "Virat Kohli",
-            "price": "$15"
+            "price": "$15",
+            "sold": ""            
         },
         {
             "id":"bat_2",
             "name": "Sachin Tendulkar",
-            "price": "$15"
+            "price": "$15",
+            "sold": ""            
         },
         {
             "id":"bat_3",
             "name": "MS Dhoni",
-            "price": "$15"
+            "price": "$15",
+            "sold": "$50"            
         },
         {
             "id":"bat_4",
             "name": "MS Dhoni",
-            "price": "$15"
+            "price": "$15",
+            "sold": ""            
         }               
     ],
     "bowler": [
         {
             "id":"bowl_1",
             "name": "Zaheer Khan",
-            "price": "$15"
+            "price": "$15",
+            "sold": ""
         },
         {
             "id":"bowl_2",
             "name": "Brett Lee",
-            "price": "$15"
+            "price": "$15",
+            "sold": "$50"
         },
         {
             "id":"bowl_3",
             "name": "Wasim Akram",
-            "price": "$15"
+            "price": "$15",
+            "sold": ""
         },
         {
             "id":"bowl_4",
             "name": "Brett Lee",
-            "price": "$15"
+            "price": "$15",
+            "sold": ""
         },
         {
             "id":"bowl_5",
             "name": "Wasim Akram",
-            "price": "$15"
+            "price": "$15",
+            "sold": ""
         }                         
     ],
     "all-rounder": [
         {
             "id":"all_1",
             "name": "Ravindra Jadeja",
-            "price": "$15"
+            "price": "$15",
+            "sold": ""
         },
         {
             "id":"all_2",
             "name": "Ben Stokes",
-            "price": "$15"
+            "price": "$15",
+            "sold": ""
         },
         {
             "id":"all_3",
             "name": "Andrew Flintoff",
-            "price": "$15"
+            "price": "$15",
+            "sold": ""
         }                
     ] 
 }
