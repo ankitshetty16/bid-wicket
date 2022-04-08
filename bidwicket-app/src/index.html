@@ -1,1 +1,329 @@
-<p> TESTING SITE</p>
+<!DOCTYPE html>
+<html style="font-size: 16px;">
+    <head>
+        <script type="text/javascript" src="data.json"></script>
+        <style>
+            * {
+            margin: 0;
+            padding: 0;
+            list-style-type:none;
+            font-family: Impact, fantasy;
+            }
+            header {
+            height:60px;
+            width:100%;
+            position:fixed;
+            background:rgba(0,0,0,0.9);
+            z-index:120;
+            }
+            header li {
+            float: right;
+            list-style-type:none;
+            border-right: 2px solid #252525;
+            }
+            header li a {
+            float: right;
+            width: 98px;
+            height: 12px;
+            padding: 24px 17px;
+            color: #fff;
+            text-decoration: none;
+            text-align: center;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1px;
+            font: normal 100.5% Impact, fantasy;
+            }
+            header .logo{
+                width: 9%;
+                float: left;
+                padding: 11px 0px 0px 30px;
+            }
+            .site-content{
+                position:absolute;
+                margin-top: 60px;
+                overflow-x: hidden;
+                width: 100%;
+            }
+
+            .main-container{
+                color: #17252a;
+                margin:0;
+                width: 100%;
+            }
+            .container{
+                /* background: #def2f1; */
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: space-between;
+            }
+            .container-contrast{
+                background: #242124;
+                color: white;  
+                padding-bottom: 100px;    
+            }
+            .box-6{
+                flex: 0 0 50%;
+                max-width: 50%;
+            }
+
+            .intro-block {
+                max-width : 80%;
+                padding-left : 20px;
+            }
+            .intro-block-large {
+                width : 75%;
+                padding-left : 20px;
+            }            
+            .heading{
+                font-size: 90px;
+                padding-left: 60px;
+                font-weight: 800;
+            }
+            .heading-2{
+                font-size: 80px;             
+                font-weight: 500;
+            }
+            .heading-3{
+                font-size: 50px;             
+                font-weight: 500;
+            }            
+            .heading-underline{
+                text-decoration: underline;
+                text-decoration-thickness: from-font;
+            }
+            .sub-heading{
+                padding-left: 60px;
+                font-size: 30px;
+            }
+            .padding-top {
+                padding-top: 50px;
+            }
+            .align-center{
+                text-align: center;
+            }
+
+            /* card CSS */
+            .column {           
+                float: left;
+                box-sizing: border-box;
+                width: 33.33%;
+                padding: 25px 25px 10px;
+            }
+
+            .row {
+                margin: 0 -5px;
+                display: flow-root;
+            }
+
+            .row:after {
+                display: table;
+                clear: both;
+            }
+
+            @media screen and (max-width: 600px) {
+            .column {
+                width: 100%;
+                display: block;
+                margin-bottom: 20px;
+            }
+            }
+
+            .card {
+                border-radius: 25px;
+                box-shadow: 0 -2px 10px rgba(0, 0, 0, 1);
+                padding: 16px;
+                text-align: center;
+                background-color:#FFFFFF;
+                color: #000000;
+            }  
+            
+            .playerimg{
+                border-radius: 50%;
+                width: 40%;
+            }
+
+            button {
+                margin: 35px 0px 10px 0px;
+                padding: 0.8em 1.8em;
+                border: 2px solid #242124;
+                position: relative;
+                overflow: hidden;
+                background-color: transparent;
+                text-align: center;
+                text-transform: uppercase;
+                font-size: 16px;
+                transition: .3s;
+                z-index: 1;
+                font-family: inherit;
+                color: #242124;
+            }
+
+            button::before {
+                content: '';
+                width: 0;
+                height: 300%;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) rotate(45deg);
+                background: #242124;
+                transition: .5s ease;
+                display: block;
+                z-index: -1;
+            }
+
+            button:hover::before {
+                cursor: pointer;
+                width: 105%;
+            }
+
+            button:hover {
+                cursor: pointer;
+                color: #FFFFFF;
+            }
+
+            footer {
+                position:fixed;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                background:rgba(0,0,0,0.9);
+                z-index:120;
+                color: white;
+                text-align: center;
+                /* padding: 50px 0px 50px 0px; */
+            }
+            
+        </style>
+        
+    </head>
+    <body>
+        <main>
+            <header>
+                <a href="/"><img class="logo" src="./images/logo.png"></a>
+                <div class="nav">
+                <ul>
+                    <li>
+                    <a href="?view=purchases">Purchases</a>
+                    </li>
+                    <li><a href="?view=register">Register</a></li>
+                </ul>
+                </div>                                
+            </header>
+            <div class="site-content">
+                <div id="home" class="main-container">
+                    <div class="container">
+                        <div class="box-6">
+                            <div class="heading">
+                                <img class="intro-block-large"src="./images/logo-dark.png">
+                            </div>
+                        </div>
+                        <div class="box-6">
+                            <img class="intro-block" src="./images/main-page-1.png" alt="Welcome to Bidwicket">
+                        </div>                       
+                    </div>
+                    <div class="container-contrast">
+                        <div class="heading-2 padding-top align-center">PLAYERS UP FOR GRABS</div>
+                        <div>
+                            <p class="heading-3 padding-top align-center">BATSMEN</p>
+                            <div id="batsmen" class="bat-display"></div>
+                        </div>
+                        <div>
+                            <p class="heading-3 padding-top align-center">BOWLERS</p>
+                            <div id="bowler" class="bowl-display"></div>
+                        </div>
+                        <div>
+                            <p class="heading-3 padding-top align-center">ALL ROUNDERS</p>
+                            <div id="all-rounder" class="all-display"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="purchases">
+                    view purchases
+                </div>
+                <div id="register">
+                    view register
+                </div> 
+            </div> 
+            <footer>
+                <p>[Developed and maintained by Team Heathers©] </p>
+            </footer>                      
+        </main>
+        <script>
+            // Script to toggle views - Start
+            var viewTypes = ['home','purchases','register'];
+            const urlSearchParams = new URLSearchParams(window.location.search);
+            const params = Object.fromEntries(urlSearchParams.entries());
+            var view = params.view != undefined ? params.view : 'home';
+            toggleView();
+            displayPlayers();
+            
+            function toggleView(){
+                viewTypes.forEach(type => {
+                    if (type == view) {
+                        document.getElementById(type).style.display = 'block';
+                    }else{
+                        document.getElementById(type).style.display = 'none';
+                    }
+                });
+            }
+            
+            // Script to toggle views - End
+
+            // Script to display batsmen bowlers and allrounders
+            function displayPlayers(){
+                var playerTypes = ['batsmen','bowler','all-rounder'];
+                fetch("data.json").then(response => {return response.json();})
+                    .then((playerInfo) => {
+                        playerTypes.forEach((type,index) => {
+                            var players = playerInfo[type];
+                            parentRow = createDiv(index+1,"row");
+                            console.log(parentRow);
+                            players.forEach((player,i)=>{
+                                column = createDiv(i+1,"column");
+                                card = createDiv(i+1,"card");
+                                card = generateCard(card,player);
+                                column.appendChild(card);
+                                parentRow.appendChild(column);
+                            });
+                            document.getElementById(type).appendChild(parentRow);
+                        });
+                    }); 
+            }
+
+            function createDiv(id,className){
+                element = document.createElement('div');
+                element.id = id;
+                element.className = className;
+                
+                return element;
+            }
+
+            function generateCard(element,player){
+                genImg = document.createElement('img');
+                genImg.className = 'playerimg';
+                genImg.src = './images/default-profile.jpeg';
+
+                genHead = document.createElement('h1');
+                genHead.innerHTML = player.name;
+
+                genButton =  document.createElement('button');
+                genButton.innerHTML =  "Buy for "+player.price;
+                genButton.onclick = function(){buyPlayer(player.id)};
+
+                element.appendChild(genImg);
+                element.appendChild(genHead);
+                element.appendChild(genButton);
+                return element;
+            }
+
+            function buyPlayer(playerId){
+                /* Add smart contract connection logic here */
+                console.log('Player id ->',playerId);
+            }
+            
+        </script>
+    </body>
+</html>
