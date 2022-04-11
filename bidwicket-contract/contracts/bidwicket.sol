@@ -21,22 +21,11 @@ contract bidwicket {
     playerMembership[msg.sender].registered = true;
   }
 
-  function buy(address player,uint price) public payable
+  function buy(uint price) public payable
   {
-    if (playerMembership[player].registered)
+    if( price != 1)
     {
-      if (playerMembership[player].price == price)
-      {
-        buyers[msg.sender] = msg.value;
-      }
-      else
-      {
-          revert();
-      }
-    }
-    else
-    {
-        revert();
+      revert();
     }
   }
 
