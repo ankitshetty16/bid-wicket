@@ -47,16 +47,21 @@ App = {
     },
 
     handleBuy: function(val){
-      console.log('handleBuy called');
+      console.log('handleBuy called ',val);
         if (val == 0)
         {
             alert('Invalid entry');
         }
         App.contracts.cric.deployed().then(function(instance) 
         {
+            console.log('entered deployed state');
+            console.log(instance);
             cricInstance = instance;
             return cricInstance.buy(val);
         }).then(function(result, err){
+            console.log('my errror>>');
+            console.log(err);
+            console.log(result);
             if(result){
                 if(parseInt(result.receipt.status) == 1)
                 alert("Player bought successfully")
