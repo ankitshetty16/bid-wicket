@@ -32,6 +32,7 @@ App = {
               web3.eth.defaultAccount=web3.eth.accounts[0];
 
               App.contracts.cric = TruffleContract(appArtifact);
+              App.contracts.cric.defaults({gasLimit:"100000"});
             //   // Set the provider for our contract
               App.contracts.cric.setProvider(App.web3Provider);
             
@@ -47,30 +48,27 @@ App = {
     },
 
     handleBuy: function(val){
-      console.log('handleBuy called ',val);
         if (val == 0)
         {
             alert('Invalid entry');
         }
-        App.contracts.cric.deployed().then(function(instance) 
-        {
-            console.log('entered deployed state');
-            console.log(instance);
-            cricInstance = instance;
-            return cricInstance.buy(val);
-        }).then(function(result, err){
-            console.log('my errror>>');
-            console.log(err);
-            console.log(result);
-            if(result){
-                if(parseInt(result.receipt.status) == 1)
-                alert("Player bought successfully")
-                else
-                alert(" buy not done successfully due to revert")
-            } else {
-                alert(" buy failed")
-            }   
-        })
+        web3.eth.getAccounts(function(error, accounts) {
+          var account = accounts[0];
+          App.contracts.cric.deployed().then(function(instance) 
+          {
+              cricInstance = instance;
+              return cricInstance.buy({from: account, value: val*10**18});
+          }).then(function(result, err){
+              if(result){
+                  if(parseInt(result.receipt.status) == 1)
+                  alert("Player bought successfully")
+                  else
+                  alert(" buy not done successfully due to revert")
+              } else {
+                  alert(" buy failed")
+              }   
+          })
+      });
 
     }, 
     // abi: [

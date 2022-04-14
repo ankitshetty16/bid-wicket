@@ -21,9 +21,9 @@ contract bidwicket {
     playerMembership[msg.sender].registered = true;
   }
 
-  function buy(uint price) public payable
+  function buy() public payable
   {
-    if (price != 15)
+    if (msg.value == 0)
     {
         revert();
     }
