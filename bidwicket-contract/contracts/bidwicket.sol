@@ -7,12 +7,24 @@ contract bidwicket {
   {
     uint price;
     bool registered;
+    address payable addr;
   }
   mapping (address=>playerInfo) playerMembership;
   mapping (address=>uint) buyers;
 
-  constructor() public {
+  constructor() {
     auctioneer = msg.sender;
+  }
+
+  modifier onlyRegisteredPlayer(address playerAddr)
+  {
+    require(playerMembership[playerAddr].registered == true);
+    _;
+  }
+  modifier validateBuy(address playerAddr)
+  {
+    require(msg.value == playerMembership[playerAddr].price);
+    _;
   }
 
   function register(uint price) public payable
@@ -21,12 +33,10 @@ contract bidwicket {
     playerMembership[msg.sender].registered = true;
   }
 
-  function buy() public payable
-  {
-    if (msg.value == 0)
-    {
-        revert();
-    }
+  function buy(address playerAddr) public payable onlyRegisteredPlayer(playerAddr) validateBuy (playerAddr) 
+  { 
+    uint amount = msg.value - 1;
+    playerMembership[playerAddr].addr.transfer(amount);
   }
 
 }
