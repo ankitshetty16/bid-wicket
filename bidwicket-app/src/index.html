@@ -236,7 +236,7 @@
                 box-shadow: 0 -2px 10px rgba(0, 0, 0, 1);
                 background:#242124;;
                 color: #FFFFFF;
-                padding: 0px 0px 0px 70px;
+                padding: 0px 0px 0px 110px;
             }
             .register-head{
                 color: #dc2f55;
@@ -330,7 +330,7 @@
 
             .submit::before {
                 width: 0;
-                height: 800%;
+                height: 1000%;
                 position: absolute;
                 top: 100%;
                 transform: translate(-50%, -50%) rotate(45deg);
@@ -338,7 +338,17 @@
                 transition: .5s ease;
                 display: block;
                 z-index: -1;
-            }            
+            }
+            /* CSS for auction display */
+            .auction-display{
+                padding: 10px 200px 10px 200px;
+            }
+            .auction-card{
+                display: flex;
+            }
+            .auction-section{
+                width: 50%;
+            }
         </style>
         
     </head>
@@ -367,21 +377,26 @@
                             <img class="intro-block" src="./images/main-page-1.png" alt="Welcome to Bidwicket">
                         </div>                       
                     </div>
-                    <!-- <div class="container-contrast">
-                        <img class="heading-2 padding-top align-center head-img"src="./images/players-available.png">
+                    <div class="container-contrast">
+                        <img class="heading-2 padding-top align-center head-img padding-bottom"src="./images/live-auction.png">
                         <div>
-                            <img class="sub-img padding-top align-center"src="./images/batsmen.png">
                             <div id="auction" class="auction-display">
-                                <div></div>
-                                    <div>
-                                        <div id="1" class="card"><img class="playerimg" src="./images/default-profile.jpeg">
-                                            <h1>Virat Kohli</h1><button>Buy for $15</button>
+                                <div class = "row">
+                                    <div class="card auction-card">
+                                        <div id="auction-player"  class="box-6 padding-top">
+                                            <!-- <h1 class="heading-2">Virat Kohli</h1>
+                                            <h2 class="padding-top">Bidding starts at</h2>
+                                            <h2 class="padding-top">Current Bid:</h2>
+                                            <button class="submit bid-now">Bid Now</button> -->
+                                        </div>                                        
+                                        <div class="box-6 padding-top">
+                                            <img class="playerimg" src="./images/default-profile.jpeg">
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div> -->
-                    </div>                    
+                        </div>
+                    </div>                  
                     <div class="container-contrast">
                         <img class="heading-2 padding-top align-center head-img"src="./images/players-available.png">
                         <div>
@@ -427,21 +442,25 @@
                                 <p class="heading-3 padding-top register-head">PLAYER DETAIL FORM</p>
                                     <div class="form">
                                         <div class="input-container ic1">
-                                          <input id="firstname" class="input" type="text" placeholder=" " />
+                                          <input id="name" class="input" type="text" placeholder=" " />
                                           <div class="cut"></div>
-                                          <label for="firstname" class="placeholder">First name</label>
+                                          <label for="name" class="placeholder">Name</label>
+                                        </div>                                     
+                                        <div class="input-container ic2">
+                                          <select id="player-type" name="type" class = "input">
+                                            <option value="batsmen">Batsman</option>
+                                            <option value="bowler">Bowler</option>
+                                            <option value="all-rounder">All Rounder</option>                                              
+                                          </select>
+                                          <div class="cut"></div>
+                                          <label for="type" class="placeholder">Type</label>
                                         </div>
                                         <div class="input-container ic2">
-                                          <input id="lastname" class="input" type="text" placeholder=" " />
-                                          <div class="cut"></div>
-                                          <label for="lastname" class="placeholder">Last name</label>
-                                        </div>
-                                        <div class="input-container ic2">
-                                          <input id="email" class="input" type="text" placeholder=" " />
+                                          <input id="price" class="input" type="text" placeholder=" " />
                                           <div class="cut cut-short"></div>
-                                          <label for="email" class="placeholder">Price</label>
+                                          <label for="price" class="placeholder">Price</label>
                                         </div>
-                                        <button type="text" class="submit">Register</button>
+                                        <button id="register-button" type="text" class="submit">Register</button>
                                     </div>
                             </div>                           
                         </div>                       
@@ -453,7 +472,6 @@
             </footer>                      
         </main>
         <script>
-            // Script to toggle views - Start
             var viewTypes = ['home','purchases','register'];
             const urlSearchParams = new URLSearchParams(window.location.search);
             const params = Object.fromEntries(urlSearchParams.entries());
@@ -461,6 +479,9 @@
             toggleView();
             displayPlayers();
             
+            /**
+             * Function to toggle view based on URL
+             */
             function toggleView(){
                 viewTypes.forEach(type => {
                     if (type == view) {
@@ -470,10 +491,10 @@
                     }
                 });
             }
-            
-            // Script to toggle views - End
 
-            // Script to display batsmen bowlers and allrounders
+            /**
+             * Maine function to display batsmen bowlers and all-rounders
+             */
             function displayPlayers(){
                 if (view !='register'){
                     viewMap = {
@@ -483,6 +504,7 @@
                     var playerTypes = ['batsmen','bowler','all-rounder'];
                     fetch("data.json").then(response => {return response.json();})
                     .then((playerInfo) => {
+                        displayMarquee(playerInfo['marquee']);
                         playerTypes.forEach((type,index) => {
                             var players = playerInfo[type];
                             parentRow = createDiv(index+1,"row");
@@ -501,6 +523,9 @@
                 }
             }
 
+            /**
+             * Function to dynamically create div with required attributes
+             */
             function createDiv(id,className){
                 element = document.createElement('div');
                 element.id = id;
@@ -509,6 +534,9 @@
                 return element;
             }
 
+            /**
+             * Function to dynamically display player buy/sold cards
+             */
             function generateCard(element,player){
                 genImg = document.createElement('img');
                 genImg.className = 'playerimg';
@@ -518,8 +546,10 @@
                 genHead.innerHTML = player.name;
                 
                 genButton =  document.createElement('button');
-                genButton.innerHTML =  player.sold == "" ? "Buy for "+player.price: "Sold for "+player.sold;
-                genButton.onclick = function(){buyPlayer(player.id)};
+                genButton.id = player.id;
+                genButton.className = "buy-now";
+                genButton.value = JSON.stringify(player);
+                genButton.innerHTML =  player.sold == "" ? "Buy for "+player.price+" ETH": "Sold for "+player.sold+" ETH";
                 genButton.disabled = player.sold == ""  ? false : true; 
 
                 element.appendChild(genImg);
@@ -528,18 +558,50 @@
                 return element;
             }
 
-            function buyPlayer(playerId){
-                /* Add smart contract connection logic here */
-                console.log('Player id ->',playerId);
+            /**
+             * Function to display marquee players for auction
+             */
+            function displayMarquee(marquee){
+                var player = marquee[0];
+
+                nameTag = document.createElement('h1');
+                nameTag.className ="heading-2";
+                nameTag.innerHTML = player.name;
+
+                startTime = document.createElement('h2');
+                startTime.className ="padding-top";
+                startTime.innerHTML = "Bidding Starts at :" + player.name;
+
+                endTime = document.createElement('h2');
+                endTime.className ="padding-top";
+                endTime.innerHTML = "Bidding End at :" + player.name;
+
+                currentBid = document.createElement('h2');
+                currentBid.className ="padding-top";
+                currentBid.innerHTML = "Current Bid :" + player.name+" ETH";                  
+                
+                genButton =  document.createElement('button');
+                genButton.id = "bid-player";
+                genButton.className = "submit bid-now";
+                // genButton.innerHTML =  player.sold == "" ? "Bid Now "+player.price: "Sold for "+player.sold;
+                genButton.innerHTML =  "Bid Now ";
+                // genButton.onclick = function(){buyPlayer(player.id)};
+                genButton.disabled = player.sold == ""  ? false : true; 
+
+                element = document.getElementById('auction-player');
+                element.appendChild(nameTag);
+                element.appendChild(startTime);
+                element.appendChild(endTime);
+                element.appendChild(currentBid);
+                element.appendChild(genButton);             
             }
             
         </script>
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>        
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <!-- <script src="js/dist/bootstrap.min.js"></script> -->
-    <script src="js/dist/web3.min.js"></script>
-    <script src="js/dist/truffle-contract.js"></script>
-    <script src="js/app.js"></script>          
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>        
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="js/dist/web3.min.js"></script>
+        <script src="js/dist/truffle-contract.js"></script>
+        <script src="js/app.js"></script>          
     </body>
 </html>

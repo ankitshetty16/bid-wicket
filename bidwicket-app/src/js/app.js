@@ -43,165 +43,106 @@ App = {
   
     bindEvents: function()
     {
-        $(document).on('click','.card',function(){
-            App.handleBuy(1);});
+      /* Register a player */
+        $(document).on('click','#register-button',function(_event){
+          pName = document.getElementById('name').value;
+          type = document.getElementById('player-type').value;
+          price = document.getElementById('price').value;
+
+          if(price != ""){
+            App.registerPlayer(pName,type,price);
+          }
+        });      
+      /* Buy a player */ 
+        $(document).on('click','.buy-now',function(event){
+            playerInfo = JSON.parse(event.target.value);        
+            App.buyPlayer(playerInfo);
+          });
     },
 
-    handleBuy: function(val){
-        if (val == 0)
+    registerPlayer: function(pName,type,price){
+      web3.eth.getAccounts(function(_error, accounts) {
+        var account = accounts[0];
+        App.contracts.cric.deployed().then(function(instance) 
         {
-            alert('Invalid entry');
+          cricInstance = instance;
+          return cricInstance.register(parseInt(price),{from: account, value: 1*10**18});
+        }).then(function(result, _err){
+          if(result){
+              if(parseInt(result.receipt.status) == 1){
+                info = {
+                  "pAddress": account,
+                  "name": pName,
+                  "price": price,
+                  "type": type
+                }
+                App.updateRecords(info,type,'fresh');
+                alert("Registration Successful");
+              }else if(parseInt(result.receipt.status) == 2){
+                alert(" Player already registered by this account!");
+              }else{
+                alert("Registration failed due to insufficient funds");
+              }
+          } else {
+              alert("Registration Failed");
+          }   
+      })          
+        });
+    },
+
+    updateRecords: function(playerRecord,type,txType) {
+      fetch("data.json").then(response => {return response.json();})
+      .then((playerInfo) => {
+        var updatedRecords = playerInfo;
+
+        if (txType == "fresh"){
+          var len = parseInt(updatedRecords[type].length)+1;
+          playerRecord.id = type.slice(0,3)+"_"+len;
+          playerRecord.sold = "";
+          playerRecord.purchasedBy = "";
+          playerRecord.type = playerRecord.type;
+          updatedRecords[type].push(playerRecord);
+        }else if (txType == "update"){
+          updatedRecords[type].filter(x => x.id === playerRecord.id).map(record =>{
+            record.sold = playerRecord.sold;
+            record.purchasedBy = playerRecord.purchasedBy;
+          });
         }
-        web3.eth.getAccounts(function(error, accounts) {
+
+        $.post("/saveToFile",{data:JSON.stringify(updatedRecords)}, function(){
+          document.location.reload();
+        });
+      });
+    },    
+
+    buyPlayer: function(playerInfo){
+        web3.eth.getAccounts(function(_error, accounts) {
           var account = accounts[0];
           App.contracts.cric.deployed().then(function(instance) 
           {
               cricInstance = instance;
-              return cricInstance.buy({from: account, value: val*10**18});
-          }).then(function(result, err){
+              price = parseInt(playerInfo.price);
+              return cricInstance.buy(playerInfo.pAddress,{from: account, value: price*10**18});
+          }).then(function(result, _err){
               if(result){
-                  if(parseInt(result.receipt.status) == 1)
-                  alert("Player bought successfully")
-                  else
-                  alert(" buy not done successfully due to revert")
+                  if(parseInt(result.receipt.status) == 1){
+                    info={
+                      "sold": playerInfo.price,
+                      "purchasedBy": account,
+                      "id": playerInfo.id
+                    }
+
+                    App.updateRecords(info,playerInfo.type,"update");
+                    alert("Player bought successfully");
+                  }else
+                  alert("Purchase unsuccessful. Please try again.")
               } else {
-                  alert(" buy failed")
-              }   
+                  alert("Purchase unsuccessful. Please make sure you have sufficient funds")
+              }
           })
       });
-
-    }, 
-    // abi: [
-    //     {
-    //       "inputs": [],
-    //       "stateMutability": "nonpayable",
-    //       "type": "constructor"
-    //     },
-    //     {
-    //       "inputs": [
-    //         {
-    //           "internalType": "uint256",
-    //           "name": "price",
-    //           "type": "uint256"
-    //         }
-    //       ],
-    //       "name": "register",
-    //       "outputs": [],
-    //       "stateMutability": "payable",
-    //       "type": "function",
-    //       "payable": true
-    //     },
-    //     {
-    //       "inputs": [
-    //         {
-    //           "internalType": "uint256",
-    //           "name": "price",
-    //           "type": "uint256"
-    //         }
-    //       ],
-    //       "name": "buy",
-    //       "outputs": [],
-    //       "stateMutability": "payable",
-    //       "type": "function",
-    //       "payable": true
-    //     }
-    //   ]
+    }
   }
-
-  //   bindEvents: function() {
-  //     $(document).on('click', '.btn-vote', App.handleVote);
-  //     $(document).on('click', '#win-count', App.handleWinner);
-  //     $(document).on('click', '#register', function(){ var ad = $('#enter_address').val(); App.handleRegister(ad); });
-  //   },
-  
-  //   populateAddress : function(){
-  //     new Web3(new Web3.providers.HttpProvider(App.url)).eth.getAccounts((err, accounts) => {
-  //       web3.eth.defaultAccount=web3.eth.accounts[0]
-  //       jQuery.each(accounts,function(i){
-  //         if(web3.eth.coinbase != accounts[i]){
-  //           var optionElement = '<option value="'+accounts[i]+'">'+accounts[i]+'</option';
-  //           jQuery('#enter_address').append(optionElement);  
-  //         }
-  //       });
-  //     });
-  //   },
-  
-  //   getChairperson : function(){
-  //     App.contracts.vote.deployed().then(function(instance) {
-  //       return instance;
-  //     }).then(function(result) {
-  //       App.chairPerson = result.constructor.currentProvider.selectedAddress.toString();
-  //       App.currentAccount = web3.eth.coinbase;
-  //       if(App.chairPerson != App.currentAccount){
-  //         jQuery('#address_div').css('display','none');
-  //         jQuery('#register_div').css('display','none');
-  //       }else{
-  //         jQuery('#address_div').css('display','block');
-  //         jQuery('#register_div').css('display','block');
-  //       }
-  //     })
-  //   },
-  
-  //   handleRegister: function(addr){
-  //     var voteInstance;
-  //     web3.eth.getAccounts(function(error, accounts) {
-  //     var account = accounts[0];
-  //     App.contracts.vote.deployed().then(function(instance) {
-  //       voteInstance = instance;
-  //       return voteInstance.register(addr, {from: account});
-  //     }).then(function(result, err){
-  //         if(result){
-  //             if(parseInt(result.receipt.status) == 1)
-  //             alert(addr + " registration done successfully")
-  //             else
-  //             alert(addr + " registration not done successfully due to revert")
-  //         } else {
-  //             alert(addr + " registration failed")
-  //         }   
-  //     })
-  //     })
-  // },
-  
-  //   handleVote: function(event) {
-  //     event.preventDefault();
-  //     var proposalId = parseInt($(event.target).data('id'));
-  //     var voteInstance;
-  
-  //     web3.eth.getAccounts(function(error, accounts) {
-  //       var account = accounts[0];
-  
-  //       App.contracts.vote.deployed().then(function(instance) {
-  //         voteInstance = instance;
-  
-  //         return voteInstance.vote(proposalId, {from: account});
-  //       }).then(function(result, err){
-  //             if(result){
-  //                 console.log(result.receipt.status);
-  //                 if(parseInt(result.receipt.status) == 1)
-  //                 alert(account + " voting done successfully")
-  //                 else
-  //                 alert(account + " voting not done successfully due to revert")
-  //             } else {
-  //                 alert(account + " voting failed")
-  //             }   
-  //         });
-  //     });
-  //   },
-  
-  //   handleWinner : function() {
-  //     console.log("To get winner");
-  //     var voteInstance;
-  //     App.contracts.vote.deployed().then(function(instance) {
-  //       voteInstance = instance;
-  //       return voteInstance.reqWinner();
-  //     }).then(function(res){
-  //     console.log(res);
-  //       alert(App.names[res] + "  is the winner ! :)");
-  //     }).catch(function(err){
-  //       console.log(err.message);
-  //     })
-  //   }
-  // };
   
   $(function() {
     $(window).load(function() {

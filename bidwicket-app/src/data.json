@@ -1,80 +1,164 @@
 {
-    "batsmen": [
-        {
-            "id":"bat_1",
-            "name": "Virat Kohli",
-            "price": "$15",
-            "sold": ""            
-        },
-        {
-            "id":"bat_2",
-            "name": "Sachin Tendulkar",
-            "price": "$15",
-            "sold": ""            
-        },
-        {
-            "id":"bat_3",
-            "name": "MS Dhoni",
-            "price": "$15",
-            "sold": "$50"            
-        },
-        {
-            "id":"bat_4",
-            "name": "MS Dhoni",
-            "price": "$15",
-            "sold": ""            
-        }               
-    ],
-    "bowler": [
-        {
-            "id":"bowl_1",
-            "name": "Zaheer Khan",
-            "price": "$15",
-            "sold": ""
-        },
-        {
-            "id":"bowl_2",
-            "name": "Brett Lee",
-            "price": "$15",
-            "sold": "$50"
-        },
-        {
-            "id":"bowl_3",
-            "name": "Wasim Akram",
-            "price": "$15",
-            "sold": ""
-        },
-        {
-            "id":"bowl_4",
-            "name": "Brett Lee",
-            "price": "$15",
-            "sold": ""
-        },
-        {
-            "id":"bowl_5",
-            "name": "Wasim Akram",
-            "price": "$15",
-            "sold": ""
-        }                         
-    ],
-    "all-rounder": [
-        {
-            "id":"all_1",
-            "name": "Ravindra Jadeja",
-            "price": "$15",
-            "sold": ""
-        },
-        {
-            "id":"all_2",
-            "name": "Ben Stokes",
-            "price": "$15",
-            "sold": ""
-        },
-        {
-            "id":"all_3",
-            "name": "Andrew Flintoff",
-            "price": "$15",
-            "sold": ""
-        }                
-    ] 
+  "batsmen": [
+    {
+      "id": "bat_1",
+      "pAddress": "0xFD901B9be9F8304cbBa9ba8BAe8c0E2b17a7540B",
+      "name": "Virat Kohli",
+      "price": "5",
+      "type": "batsmen",
+      "sold": "",
+      "purchasedBy": ""
+    },
+    {
+      "id": "bat_2",
+      "pAddress": "",
+      "name": "Sachin Tendulkar",
+      "price": "15",
+      "type": "batsmen",
+      "sold": "",
+      "purchasedBy": ""
+    },
+    {
+      "id": "bat_3",
+      "pAddress": "",
+      "name": "MS Dhoni",
+      "price": "15",
+      "type": "batsmen",
+      "sold": ""
+    },
+    {
+      "id": "bat_4",
+      "pAddress": "",
+      "name": "MS Dhoni",
+      "price": "15",
+      "type": "batsmen",
+      "sold": "",
+      "purchasedBy": ""
+    },
+    {
+      "pAddress": "0x87c5cb91f90fb961f2458553bbc9a8f91bab10a1",
+      "name": "Rahul Dravid",
+      "price": "25",
+      "id": "bat_5",
+      "type": "batsmen",
+      "sold": "",
+      "purchasedBy": ""
+    }
+  ],
+  "bowler": [
+    {
+      "id": "bow_1",
+      "pAddress": "",
+      "name": "Zaheer Khan",
+      "price": "15",
+      "type": "bowler",
+      "sold": "",
+      "purchasedBy": ""
+    },
+    {
+      "id": "bow_2",
+      "pAddress": "",
+      "name": "Brett Lee",
+      "price": "15",
+      "type": "bowler",
+      "sold": "50",
+      "purchasedBy": ""
+    },
+    {
+      "id": "bow_3",
+      "pAddress": "",
+      "name": "Wasim Akram",
+      "price": "15",
+      "type": "bowler",
+      "sold": "",
+      "purchasedBy": ""
+    },
+    {
+      "id": "bow_4",
+      "pAddress": "",
+      "name": "Brett Lee",
+      "price": "15",
+      "type": "bowler",
+      "sold": "",
+      "purchasedBy": ""
+    },
+    {
+      "id": "bow_5",
+      "pAddress": "",
+      "name": "Wasim Akram",
+      "price": "15",
+      "type": "bowler",
+      "sold": "",
+      "purchasedBy": ""
+    },
+    {
+      "pAddress": "0x87c5cb91f90fb961f2458553bbc9a8f91bab10a1",
+      "name": "Mohd Shami",
+      "price": "4",
+      "id": "bow_6",
+      "type": "bowler",
+      "sold": "4",
+      "purchasedBy": "0x930c79ed0ab8ca818ec99bdc8dedeb4fea5d2c15"
+    }
+  ],
+  "all-rounder": [
+    {
+      "id": "all_1",
+      "pAddress": "",
+      "name": "Ravindra Jadeja",
+      "price": "15",
+      "type": "all-rounder",
+      "sold": "",
+      "purchasedBy": ""
+    },
+    {
+      "id": "all_2",
+      "pAddress": "",
+      "name": "Ben Stokes",
+      "price": "15",
+      "type": "all-rounder",
+      "sold": "",
+      "purchasedBy": ""
+    },
+    {
+      "id": "all_3",
+      "pAddress": "",
+      "name": "Andrew Flintoff",
+      "price": "15",
+      "type": "all-rounder",
+      "sold": "",
+      "purchasedBy": ""
+    },
+    {
+      "pAddress": "0x930c79ed0ab8ca818ec99bdc8dedeb4fea5d2c15",
+      "name": "as",
+      "price": "11",
+      "type": "all-rounder",
+      "id": "all_4",
+      "sold": "",
+      "purchasedBy": ""
+    }
+  ],
+  "marquee": [
+    {
+      "id": "spl_1",
+      "pAddress": "",
+      "name": "Ravindra Jadeja",
+      "type": "all-rounder",
+      "price": "25",
+      "currentBid": "",
+      "sold": "",
+      "purchasedBy": ""
+    },
+    {
+      "id": "spl_2",
+      "pAddress": "",
+      "name": "Virat Kohli",
+      "type": "batsman",
+      "price": "35",
+      "currentBid": "",
+      "sold": "",
+      "purchasedBy": ""
+    }
+  ]
 }
