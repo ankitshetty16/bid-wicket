@@ -98,7 +98,7 @@
       "id": "bow_6",
       "type": "bowler",
       "sold": "4",
-      "purchasedBy": "0x930c79ed0ab8ca818ec99bdc8dedeb4fea5d2c15"
+      "purchasedBy": ""
     }
   ],
   "all-rounder": [
@@ -126,15 +126,6 @@
       "name": "Andrew Flintoff",
       "price": "15",
       "type": "all-rounder",
-      "sold": "",
-      "purchasedBy": ""
-    },
-    {
-      "pAddress": "0x930c79ed0ab8ca818ec99bdc8dedeb4fea5d2c15",
-      "name": "as",
-      "price": "11",
-      "type": "all-rounder",
-      "id": "all_4",
       "sold": "",
       "purchasedBy": ""
     }

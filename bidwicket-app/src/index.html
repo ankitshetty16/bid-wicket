@@ -506,17 +506,27 @@
                     .then((playerInfo) => {
                         displayMarquee(playerInfo['marquee']);
                         playerTypes.forEach((type,index) => {
+                            var playerDisplayed = 0;
                             var players = playerInfo[type];
                             parentRow = createDiv(index+1,"row");
                             players.forEach((player,i)=>{
                                 column = createDiv(i+1,"column");
                                 card = createDiv(i+1,"card");
                                 if (view == "home" || view == "purchases" && player.sold != ""){
+                                    playerDisplayed += 1;
                                     card = generateCard(card,player);
                                     column.appendChild(card);
                                     parentRow.appendChild(column);
                                 }
                             });
+
+                            if (playerDisplayed == 0){
+                                    playerDisplayed += 1;
+                                    noResult = document.createElement('h1');
+                                    noResult.className = "padding-top padding-bottom align-center";
+                                    noResult.innerHTML = view == "home" ? "No registered players yet. Register Now!!!" : "No players have been sold. Buy now!!";
+                                    parentRow.appendChild(noResult);                          
+                            }                            
                             document.getElementById(type+viewMap[view]).appendChild(parentRow);
                         });
                     }); 
