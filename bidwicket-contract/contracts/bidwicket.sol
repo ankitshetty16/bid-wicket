@@ -21,9 +21,10 @@ contract bidwicket {
     require(playerMembership[playerAddr].registered == true);
     _;
   }
-  modifier validateBuy(address playerAddr)
+
+  modifier buyerBalance()
   {
-    require(msg.value == playerMembership[playerAddr].price);
+    require(msg.value <= msg.sender.balance, "Insufficient balance");
     _;
   }
 
@@ -31,11 +32,12 @@ contract bidwicket {
   {
     playerMembership[msg.sender].price = price;
     playerMembership[msg.sender].registered = true;
+    playerMembership[msg.sender].addr = payable(msg.sender);
   }
 
-  function buy(address playerAddr) public payable onlyRegisteredPlayer(playerAddr) validateBuy (playerAddr) 
+  function buy(address playerAddr) public payable onlyRegisteredPlayer(playerAddr) buyerBalance
   { 
-    uint amount = msg.value - 1;
+    uint amount = msg.value;
     playerMembership[playerAddr].addr.transfer(amount);
   }
 
