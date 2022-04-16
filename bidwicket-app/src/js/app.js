@@ -10,11 +10,9 @@ App = {
     },
   
     initWeb3: function() {
-          // Is there is an injected web3 instance?
       if (typeof web3 !== 'undefined') {
         App.web3Provider = ethereum;
       } else {
-        // If no injected web3 instance is detected, fallback to the TestRPC
         App.web3Provider = new Web3.providers.HttpProvider(App.url);
       }
       web3 = new Web3(App.web3Provider);
@@ -26,17 +24,16 @@ App = {
   
     initContract: function() {
         $.getJSON('bidwicket.json', function(data) {
-        // Get the necessary contract artifact file and instantiate it with truffle-contract
               var appArtifact = data;
 
               web3.eth.defaultAccount=web3.eth.accounts[0];
 
               App.contracts.cric = TruffleContract(appArtifact);
               App.contracts.cric.defaults({gasLimit:"100000"});
-            //   // Set the provider for our contract
               App.contracts.cric.setProvider(App.web3Provider);
             
-            //   App.getChairperson();
+              App.getCurrentPhase();
+
             return App.bindEvents();
         });
     },
@@ -57,7 +54,22 @@ App = {
         $(document).on('click','.buy-now',function(event){
             playerInfo = JSON.parse(event.target.value);        
             App.buyPlayer(playerInfo);
-          });
+        });
+      /* Bid for player */ 
+        $(document).on('click','.bid-now',function(event){
+          playerInfo = JSON.parse(event.target.value);     
+          App.newBid(playerInfo);
+        });
+      /* Withdraw amount */ 
+        $(document).on('click','.withdraw-bid',function(event){
+          App.withdrawAmt();
+        });
+      /* Change Phase */ 
+      $(document).on('click','.change-phase',function(event){
+        var newPhase = currentPhase == 2 ? 0: currentPhase + 1;
+        var playerInfo = JSON.parse(event.target.value);
+        App.changePhase(newPhase,playerInfo);
+      });
     },
 
     registerPlayer: function(pName,type,price){
@@ -86,8 +98,8 @@ App = {
           } else {
               alert("Registration Failed");
           }   
-      })          
-        });
+        });     
+      });
     },
 
     updateRecords: function(playerRecord,type,txType) {
@@ -106,6 +118,8 @@ App = {
           updatedRecords[type].filter(x => x.id === playerRecord.id).map(record =>{
             record.sold = playerRecord.sold;
             record.purchasedBy = playerRecord.purchasedBy;
+            if(playerRecord.currentBid) { record.currentBid = playerRecord.currentBid; };
+            if(playerRecord.active == false) { record.active = playerRecord.active };
           });
         }
 
@@ -141,6 +155,84 @@ App = {
               }
           })
       });
+    },
+
+    getCurrentPhase: function(){
+        App.contracts.cric.deployed().then(function(instance) 
+        {
+            cricInstance = instance;
+            return cricInstance.getCurrentPhase();
+        }).then(function(result, _err){
+          currentPhase = result.c[0];
+          displayPlayers();
+          // updateAuctionBtns('bid-player');
+        });
+    },  
+
+    changePhase: function(phase,playerInfo){
+      web3.eth.getAccounts(function(_error, accounts) {
+        var account = accounts[0];
+        App.contracts.cric.deployed().then(function(instance)
+        {
+            cricInstance = instance;
+            return cricInstance.changePhase(phase,{from: account});
+        }).then(function(result, _err){
+            if(result && parseInt(result.receipt.status) == 1){
+              App.getCurrentPhase();
+              if (phase == 2){
+                playerInfo.sold = playerInfo.currentBid;
+                App.updateRecords(playerInfo,"marquee","update");
+              }
+              if (phase == 0){
+                playerInfo.active = false;
+                App.updateRecords(playerInfo,"marquee","update"); 
+              }
+              alert("Phase changed succesfully. Current Phase: "+auctionPhases[phase]);
+              document.location.reload();
+            } else {
+                alert("Phase can only be changed by Auctioneer");
+            }
+        })
+    });      
+    },
+
+    newBid: function(playerInfo){
+      web3.eth.getAccounts(function(_error, accounts) {
+        var account = accounts[0];
+        App.contracts.cric.deployed().then(function(instance) 
+        {
+            cricInstance = instance;
+            price = playerInfo.currentBid != "" ? parseInt(playerInfo.currentBid)+1 :parseInt(playerInfo.price);
+            return cricInstance.bid(playerInfo.pAddress,{from: account, value: price*10**18});
+        }).then(function(result, _err){
+            if(result && parseInt(result.receipt.status) == 1){
+                playerInfo.currentBid = price;
+                playerInfo.purchasedBy = account;
+                App.updateRecords(playerInfo,"marquee","update");
+                alert("Bid placed succesfully. Current Bid: "+playerInfo.currentBid+"ETH by : "+playerInfo.purchasedBy);
+            } else {
+                alert("Error in placing bid");
+            }
+        })
+    });      
+    },
+
+    withdrawAmt: function(){
+      web3.eth.getAccounts(function(_error, accounts) {
+        var account = accounts[0];
+        App.contracts.cric.deployed().then(function(instance)
+        {
+            cricInstance = instance;
+            return cricInstance.withdraw({from: account});
+        }).then(function(result, _err){
+            if(result && parseInt(result.receipt.status) == 1){
+              alert("Amount withdrawn successfully");
+              document.location.reload();
+            } else {
+                alert("Error in withdrawing amount.");
+            }
+        })
+    });       
     }
   }
   

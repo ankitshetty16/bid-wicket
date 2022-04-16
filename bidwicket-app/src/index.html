@@ -349,6 +349,27 @@
             .auction-section{
                 width: 50%;
             }
+            .change-phase{
+                background-color: #6A5ACD;
+                margin: 0px 0px 20px 0px;
+            }
+            .change-phase::before{
+                background: #0000FF;        
+            }
+            .withdraw-bid{
+                background-color: #36454F;
+                margin: 40px 0px 0px 0px;
+            }
+            .withdraw-bid::before{
+                background: #353935;        
+            }
+            .bid-now{
+                margin: 10px 0px 10px 0px;
+            }
+            .current-bid{
+                color: #dc2f55;
+                padding: 20px 0px 0px 0px;
+            }         
         </style>
         
     </head>
@@ -383,12 +404,7 @@
                             <div id="auction" class="auction-display">
                                 <div class = "row">
                                     <div class="card auction-card">
-                                        <div id="auction-player"  class="box-6 padding-top">
-                                            <!-- <h1 class="heading-2">Virat Kohli</h1>
-                                            <h2 class="padding-top">Bidding starts at</h2>
-                                            <h2 class="padding-top">Current Bid:</h2>
-                                            <button class="submit bid-now">Bid Now</button> -->
-                                        </div>                                        
+                                        <div id="auction-player"  class="box-6 padding-top"></div>
                                         <div class="box-6 padding-top">
                                             <img class="playerimg" src="./images/default-profile.jpeg">
                                         </div>
@@ -473,12 +489,17 @@
         </main>
         <script>
             var viewTypes = ['home','purchases','register'];
+            var auctionPhases ={
+                0: "Auction not started",
+                1: "Bid Now",
+                2: "Auction Completed"
+            }
+            var currentPhase = 0;
             const urlSearchParams = new URLSearchParams(window.location.search);
             const params = Object.fromEntries(urlSearchParams.entries());
             var view = params.view != undefined ? params.view : 'home';
             toggleView();
-            displayPlayers();
-            
+
             /**
              * Function to toggle view based on URL
              */
@@ -493,7 +514,7 @@
             }
 
             /**
-             * Maine function to display batsmen bowlers and all-rounders
+             * Main function to display batsmen bowlers and all-rounders
              */
             function displayPlayers(){
                 if (view !='register'){
@@ -504,7 +525,6 @@
                     var playerTypes = ['batsmen','bowler','all-rounder'];
                     fetch("data.json").then(response => {return response.json();})
                     .then((playerInfo) => {
-                        displayMarquee(playerInfo['marquee']);
                         playerTypes.forEach((type,index) => {
                             var playerDisplayed = 0;
                             var players = playerInfo[type];
@@ -529,7 +549,8 @@
                             }                            
                             document.getElementById(type+viewMap[view]).appendChild(parentRow);
                         });
-                    }); 
+                        displayMarquee(playerInfo['marquee']);
+                    });
                 }
             }
 
@@ -572,40 +593,65 @@
              * Function to display marquee players for auction
              */
             function displayMarquee(marquee){
-                var player = marquee[0];
+                var set = false;
+                marquee.forEach(player => {
+                    // if ((player.sold != "" && (currentPhase == 0 || currentPhase == 1) &&  player.active != true) || set == true) {
+                    if (player.active != true || set == true) {
+                        return;
+                    };
 
-                nameTag = document.createElement('h1');
-                nameTag.className ="heading-2";
-                nameTag.innerHTML = player.name;
+                    nameTag = document.createElement('h2');
+                    nameTag.className ="heading-2";
+                    nameTag.innerHTML = player.name;
 
-                startTime = document.createElement('h2');
-                startTime.className ="padding-top";
-                startTime.innerHTML = "Bidding Starts at :" + player.name;
+                    startTime = document.createElement('h2');
+                    startTime.className ="padding-top";
+                    startTime.innerHTML = "Bidding Starts at : " + player.start;
 
-                endTime = document.createElement('h2');
-                endTime.className ="padding-top";
-                endTime.innerHTML = "Bidding End at :" + player.name;
+                    endTime = document.createElement('h2');
+                    endTime.className ="";
+                    endTime.innerHTML = "Bidding Ends at : " + player.end;
 
-                currentBid = document.createElement('h2');
-                currentBid.className ="padding-top";
-                currentBid.innerHTML = "Current Bid :" + player.name+" ETH";                  
-                
-                genButton =  document.createElement('button');
-                genButton.id = "bid-player";
-                genButton.className = "submit bid-now";
-                // genButton.innerHTML =  player.sold == "" ? "Bid Now "+player.price: "Sold for "+player.sold;
-                genButton.innerHTML =  "Bid Now ";
-                // genButton.onclick = function(){buyPlayer(player.id)};
-                genButton.disabled = player.sold == ""  ? false : true; 
+                    currentBidSection = document.createElement('h2');
+                    currentBidSection.className ="current-bid";
+                    currentBidSection.innerHTML = currentPhase != 2 ? (player.currentBid != "" ? "Current Bid : " +player.currentBid +" ETH" : "Price : " +player.price +" ETH"): "Sold for: "+player.sold;
+                    
+                    if (player.purchasedBy != ""){
+                        currentBidder = document.createElement('h2');
+                        currentBidder.className = "current-bid";
+                        currentBidder.innerHTML = currentPhase != 2 ? "Current Bidder : " +player.purchasedBy : "Purchased By : "+player.purchasedBy;
+                    }
 
-                element = document.getElementById('auction-player');
-                element.appendChild(nameTag);
-                element.appendChild(startTime);
-                element.appendChild(endTime);
-                element.appendChild(currentBid);
-                element.appendChild(genButton);             
+                    withdrawButton =  document.createElement('button');
+                    withdrawButton.id = "withdraw-bid";
+                    withdrawButton.className = "submit withdraw-bid";
+                    withdrawButton.innerHTML =  "Withdraw";
+                    withdrawButton.value = JSON.stringify(player);
+
+                    genButton =  document.createElement('button');
+                    genButton.id = "bid-player";
+                    genButton.className = "submit bid-now";
+                    genButton.innerHTML =  auctionPhases[currentPhase];
+                    genButton.value = JSON.stringify(player);
+
+                    phaseButton =  document.createElement('button');
+                    phaseButton.id = "change-phase";
+                    phaseButton.className = "submit change-phase";
+                    phaseButton.innerHTML =  "Change Phase";
+                    phaseButton.value = JSON.stringify(player);
+
+                    element = document.getElementById('auction-player');
+                    element.appendChild(nameTag);
+                    element.appendChild(startTime);
+                    element.appendChild(endTime);
+                    element.appendChild(currentBidSection);
+                    if (player.purchasedBy !="") element.appendChild(currentBidder);
+                    element.appendChild(withdrawButton);       
+                    element.appendChild(genButton);       
+                    element.appendChild(phaseButton);  
+                    set = true; 
+                });        
             }
-            
         </script>
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>        

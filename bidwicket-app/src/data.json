@@ -1,155 +1,84 @@
 {
   "batsmen": [
     {
+      "pAddress": "0x930c79ed0ab8ca818ec99bdc8dedeb4fea5d2c15",
+      "name": "Faf Du Plessis",
+      "price": "3",
+      "type": "batsmen",
       "id": "bat_1",
-      "pAddress": "0xFD901B9be9F8304cbBa9ba8BAe8c0E2b17a7540B",
-      "name": "Virat Kohli",
+      "sold": "3",
+      "purchasedBy": ""
+    },
+    {
+      "pAddress": "0x0ce9d0744ccb1fd39504b21ed2df166b22474995",
+      "name": "MS Dhoni",
+      "price": "2",
+      "type": "batsmen",
+      "id": "bat_2",
+      "sold": "2",
+      "purchasedBy": ""
+    },
+    {
+      "pAddress": "0xcd8e3a87fb0b87e71f04671424bedbad6d7bc14a",
+      "name": "ABD",
       "price": "5",
       "type": "batsmen",
-      "sold": "",
-      "purchasedBy": ""
-    },
-    {
-      "id": "bat_2",
-      "pAddress": "",
-      "name": "Sachin Tendulkar",
-      "price": "15",
-      "type": "batsmen",
-      "sold": "",
-      "purchasedBy": ""
-    },
-    {
       "id": "bat_3",
-      "pAddress": "",
-      "name": "MS Dhoni",
-      "price": "15",
-      "type": "batsmen",
-      "sold": ""
+      "sold": "5",
+      "purchasedBy": "0x7a1f47aa4db72034208b6822622856701c9e6897"
     },
-    {
-      "id": "bat_4",
-      "pAddress": "",
-      "name": "MS Dhoni",
-      "price": "15",
-      "type": "batsmen",
-      "sold": "",
-      "purchasedBy": ""
-    },
-    {
-      "pAddress": "0x87c5cb91f90fb961f2458553bbc9a8f91bab10a1",
-      "name": "Rahul Dravid",
-      "price": "25",
-      "id": "bat_5",
-      "type": "batsmen",
-      "sold": "",
-      "purchasedBy": ""
-    }
   ],
   "bowler": [
     {
+      "pAddress": "0xd8c0dbae43e2c3c65c7d9dd04e439673cb0334c1",
+      "name": "test1",
+      "price": "7",
+      "type": "bowler",
       "id": "bow_1",
-      "pAddress": "",
-      "name": "Zaheer Khan",
-      "price": "15",
-      "type": "bowler",
-      "sold": "",
-      "purchasedBy": ""
-    },
-    {
-      "id": "bow_2",
-      "pAddress": "",
-      "name": "Brett Lee",
-      "price": "15",
-      "type": "bowler",
-      "sold": "50",
-      "purchasedBy": ""
-    },
-    {
-      "id": "bow_3",
-      "pAddress": "",
-      "name": "Wasim Akram",
-      "price": "15",
-      "type": "bowler",
-      "sold": "",
-      "purchasedBy": ""
-    },
-    {
-      "id": "bow_4",
-      "pAddress": "",
-      "name": "Brett Lee",
-      "price": "15",
-      "type": "bowler",
-      "sold": "",
-      "purchasedBy": ""
-    },
-    {
-      "id": "bow_5",
-      "pAddress": "",
-      "name": "Wasim Akram",
-      "price": "15",
-      "type": "bowler",
-      "sold": "",
-      "purchasedBy": ""
-    },
-    {
-      "pAddress": "0x87c5cb91f90fb961f2458553bbc9a8f91bab10a1",
-      "name": "Mohd Shami",
-      "price": "4",
-      "id": "bow_6",
-      "type": "bowler",
-      "sold": "4",
-      "purchasedBy": ""
-    }
-  ],
-  "all-rounder": [
-    {
-      "id": "all_1",
-      "pAddress": "",
-      "name": "Ravindra Jadeja",
-      "price": "15",
-      "type": "all-rounder",
-      "sold": "",
-      "purchasedBy": ""
-    },
-    {
-      "id": "all_2",
-      "pAddress": "",
-      "name": "Ben Stokes",
-      "price": "15",
-      "type": "all-rounder",
-      "sold": "",
-      "purchasedBy": ""
-    },
-    {
-      "id": "all_3",
-      "pAddress": "",
-      "name": "Andrew Flintoff",
-      "price": "15",
-      "type": "all-rounder",
       "sold": "",
       "purchasedBy": ""
     }
   ],
+  "all-rounder": [],
   "marquee": [
     {
       "id": "spl_1",
       "pAddress": "",
-      "name": "Ravindra Jadeja",
+      "name": "MS Dhoni",
       "type": "all-rounder",
-      "price": "25",
+      "price": "2",
       "currentBid": "",
       "sold": "",
-      "purchasedBy": ""
+      "purchasedBy": "",
+      "start": "25th April - 4pm",
+      "end": "25th April - 5pm",
+      "active": true
     },
     {
       "id": "spl_2",
       "pAddress": "",
       "name": "Virat Kohli",
       "type": "batsman",
-      "price": "35",
+      "price": "2",
       "currentBid": "",
       "sold": "",
-      "purchasedBy": ""
-    }
+      "purchasedBy": "",
+      "start": " 26th April - 4pm",
+      "end": "26th April - 5pm",
+      "active": true
+    },
+    {
+    "id": "spl_3",
+    "pAddress": "",
+    "name": "Brett Lee",
+    "type": "Bowler",
+    "price": "3",
+    "currentBid": "",
+    "sold": "",
+    "purchasedBy": "",
+    "start": " 26th April - 4pm",
+    "end": "26th April - 5pm",
+    "active": true
+    }    
   ]
 }
