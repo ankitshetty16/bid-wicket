@@ -26,6 +26,9 @@ contract bidwicket {
   address currentBidderAddress;
   address currentPlayerInAuction;
 
+  event PlayerAlreadyRegistered();
+  event RegistrationSuccessful();
+
   constructor() {
     auctioneer = msg.sender;
   }
@@ -45,6 +48,7 @@ contract bidwicket {
   modifier alreadyRegistered()
   {
     require(playerMembership[msg.sender].registered == false,"Player already registered");
+    emit PlayerAlreadyRegistered();
     _;
   }
 
@@ -90,6 +94,7 @@ contract bidwicket {
     playerMembership[msg.sender].registered = true;
     playerMembership[msg.sender].addr = payable(msg.sender);
     playerMembership[msg.sender].alreadySold = false;
+    emit RegistrationSuccessful();
   }
 
   function buy(address playerAddr) public payable onlyRegisteredPlayer(playerAddr) buyerBalance alreadySold(playerAddr)
