@@ -8,6 +8,7 @@ contract bidwicket {
     uint price;
     bool registered;
     address payable addr;
+    bool alreadySold;
   }
 
   struct buyerInfo
@@ -46,6 +47,12 @@ contract bidwicket {
     _;
   }
 
+  modifier alreadySold(address playerAddr)
+  {
+    require(playerMembership[playerAddr].alreadySold == false,"Player already registered");
+    _;
+  }
+
   modifier isBiddingPhase()
   {
     require(state == Phase.bid);
@@ -75,12 +82,14 @@ contract bidwicket {
     playerMembership[msg.sender].price = price;
     playerMembership[msg.sender].registered = true;
     playerMembership[msg.sender].addr = payable(msg.sender);
+    playerMembership[msg.sender].alreadySold = false;
   }
 
-  function buy(address playerAddr) public payable onlyRegisteredPlayer(playerAddr) buyerBalance
+  function buy(address playerAddr) public payable onlyRegisteredPlayer(playerAddr) buyerBalance alreadySold(playerAddr)
   { 
     uint amount = msg.value;
     playerMembership[playerAddr].addr.transfer(amount);
+    playerMembership[msg.sender].alreadySold = true;
   }
 
   function changePhase(Phase newPhase) public onlyAuctioneer
@@ -88,13 +97,15 @@ contract bidwicket {
     state = newPhase;
   }
 
-  function bid() public payable newBid
+  function bid() public payable newBid returns (uint bidValue,address bidderAddress)
   {
     buyers[msg.sender].addr = payable(msg.sender);
     buyers[msg.sender].amount = msg.value;
     buyers[msg.sender].status = 1;
     currentBidValue = msg.value;
     currentBidderAddress = msg.sender;
+    bidValue = currentBidValue;
+    bidderAddress = currentBidderAddress;
   }
 
   function withdraw() public payable alreadyBidded
@@ -109,6 +120,11 @@ contract bidwicket {
   {
     bidValue = currentBidValue;
     bidAddress = currentBidderAddress;
+  }
+
+  function getCurrentPhase() public view returns (Phase currentPhase)
+  {
+    currentPhase = state;
   }
 
 }
