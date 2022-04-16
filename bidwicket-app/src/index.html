@@ -582,9 +582,14 @@
                 genButton.value = JSON.stringify(player);
                 genButton.innerHTML =  player.sold == "" ? "Buy for "+player.price+" ETH": "Sold for "+player.sold+" ETH";
                 genButton.disabled = player.sold == ""  ? false : true; 
-
+                
+                if(view =="purchases" && player.sold != ""){
+                    soldTo = document.createElement('p');
+                    soldTo.innerHTML = "Sold to "+player.purchasedBy;                    
+                }
                 element.appendChild(genImg);
                 element.appendChild(genHead);
+                if(view =="purchases" && player.sold != ""){element.appendChild(soldTo);};
                 element.appendChild(genButton);
                 return element;
             }

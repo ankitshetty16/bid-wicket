@@ -6,7 +6,7 @@
       "price": "3",
       "type": "batsmen",
       "id": "bat_1",
-      "sold": "3",
+      "sold": "",
       "purchasedBy": ""
     },
     {
@@ -15,7 +15,7 @@
       "price": "2",
       "type": "batsmen",
       "id": "bat_2",
-      "sold": "2",
+      "sold": "",
       "purchasedBy": ""
     },
     {
