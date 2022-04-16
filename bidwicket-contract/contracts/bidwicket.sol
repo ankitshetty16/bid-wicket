@@ -24,6 +24,7 @@ contract bidwicket {
   Phase public state = Phase.init;
   uint currentBidValue = 0;
   address currentBidderAddress;
+  address currentPlayerInAuction;
 
   constructor() {
     auctioneer = msg.sender;
@@ -77,6 +78,12 @@ contract bidwicket {
     _;
   }
 
+  modifier notCurrentHighestBidder()
+  {
+    require(msg.sender != currentBidderAddress);
+    _;
+  }
+
   function register(uint price) public payable alreadyRegistered
   {
     playerMembership[msg.sender].price = price;
@@ -93,11 +100,18 @@ contract bidwicket {
   }
 
   function changePhase(Phase newPhase) public onlyAuctioneer
-  {
+  { 
+    if(state == Phase.done){
+      address payable transferAcc = payable(currentPlayerInAuction);
+      transferAcc.transfer(currentBidValue);
+      currentBidValue = 0;
+      buyers[currentPlayerInAuction].status = 0;
+      buyers[currentPlayerInAuction].amount = 0;
+    }
     state = newPhase;
   }
 
-  function bid() public payable newBid returns (uint bidValue,address bidderAddress)
+  function bid(address playerAddr) public payable newBid returns (uint bidValue,address bidderAddress)
   {
     buyers[msg.sender].addr = payable(msg.sender);
     buyers[msg.sender].amount = msg.value;
@@ -106,9 +120,10 @@ contract bidwicket {
     currentBidderAddress = msg.sender;
     bidValue = currentBidValue;
     bidderAddress = currentBidderAddress;
+    currentPlayerInAuction = playerAddr;
   }
 
-  function withdraw() public payable alreadyBidded
+  function withdraw() public payable alreadyBidded notCurrentHighestBidder
   { 
     uint amount = buyers[msg.sender].amount;
     buyers[msg.sender].addr.transfer(amount);
