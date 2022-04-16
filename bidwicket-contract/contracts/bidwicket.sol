@@ -88,6 +88,12 @@ contract bidwicket {
     _;
   }
 
+  modifier checkBidPhase()
+  {
+    require(state == Phase.bid,"Not in valid state");
+    _;
+  }
+
   function register(uint price) public payable alreadyRegistered
   {
     playerMembership[msg.sender].price = price;
@@ -116,7 +122,8 @@ contract bidwicket {
     state = newPhase;
   }
 
-  function bid(address playerAddr) public payable newBid returns (uint bidValue,address bidderAddress)
+
+  function bid(address playerAddr) public payable newBid checkBidPhase returns (uint bidValue,address bidderAddress)
   {
     buyers[msg.sender].addr = payable(msg.sender);
     buyers[msg.sender].amount = msg.value;
