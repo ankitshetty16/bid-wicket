@@ -26,12 +26,6 @@ contract bidwicket {
   address currentBidderAddress;
   address currentPlayerInAuction;
 
-  event PlayerAlreadyRegistered();
-  event RegistrationSuccessful();
-
-  constructor() {
-    auctioneer = msg.sender;
-  }
 
   modifier onlyRegisteredPlayer(address playerAddr)
   {
@@ -48,19 +42,12 @@ contract bidwicket {
   modifier alreadyRegistered()
   {
     require(playerMembership[msg.sender].registered == false,"Player already registered");
-    emit PlayerAlreadyRegistered();
     _;
   }
 
   modifier alreadySold(address playerAddr)
   {
     require(playerMembership[playerAddr].alreadySold == false,"Player already registered");
-    _;
-  }
-
-  modifier isBiddingPhase()
-  {
-    require(state == Phase.bid);
     _;
   }
 
@@ -94,13 +81,16 @@ contract bidwicket {
     _;
   }
 
-  function register(uint price) public payable alreadyRegistered
+  constructor() {
+    auctioneer = msg.sender;
+  }
+  
+  function register(uint price) public payable alreadyRegistered buyerBalance
   {
     playerMembership[msg.sender].price = price;
     playerMembership[msg.sender].registered = true;
     playerMembership[msg.sender].addr = payable(msg.sender);
     playerMembership[msg.sender].alreadySold = false;
-    emit RegistrationSuccessful();
   }
 
   function buy(address playerAddr) public payable onlyRegisteredPlayer(playerAddr) buyerBalance alreadySold(playerAddr)
@@ -123,7 +113,7 @@ contract bidwicket {
   }
 
 
-  function bid(address playerAddr) public payable newBid checkBidPhase returns (uint bidValue,address bidderAddress)
+  function bid(address playerAddr) public payable newBid checkBidPhase buyerBalance returns (uint bidValue,address bidderAddress)
   {
     buyers[msg.sender].addr = payable(msg.sender);
     buyers[msg.sender].amount = msg.value;
