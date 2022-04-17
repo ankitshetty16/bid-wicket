@@ -1,9 +1,8 @@
 App = {
     web3Provider: null,
     contracts: {},
-    names: new Array(),
     url: 'http://127.0.0.1:7545',
-    chairPerson:null,
+    auctioneer:null,
     currentAccount:null,
     init: function() {
       return App.initWeb3();
@@ -69,6 +68,11 @@ App = {
         var newPhase = currentPhase == 2 ? 0: currentPhase + 1;
         var playerInfo = JSON.parse(event.target.value);
         App.changePhase(newPhase,playerInfo);
+      });
+      /* To get current Bid Value */
+      $(document).on('click','.bid-value',function(event){
+        var playerInfo = JSON.parse(event.target.value);
+        App.getCurrentBidInfo(playerInfo);
       });
     },
 
@@ -165,7 +169,6 @@ App = {
         }).then(function(result, _err){
           currentPhase = result.c[0];
           displayPlayers();
-          // updateAuctionBtns('bid-player');
         });
     },  
 
@@ -233,6 +236,20 @@ App = {
             }
         })
     });       
+    },
+
+    getCurrentBidInfo: function(playerInfo){
+      App.contracts.cric.deployed().then(function(instance) 
+      {
+          cricInstance = instance;
+          return cricInstance.getCurrentBidInfo();
+      }).then(function(result, _err){
+        if (result){
+          playerInfo.currentBid = result[0].c[0]/10000;
+          playerInfo.purchasedBy = result[1];
+          App.updateRecords(playerInfo,"marquee","update");
+        }
+      });
     }
   }
   

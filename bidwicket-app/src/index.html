@@ -351,17 +351,27 @@
             }
             .change-phase{
                 background-color: #6A5ACD;
-                margin: 0px 0px 20px 0px;
+                margin: 0px 0px 10px 0px;
             }
             .change-phase::before{
                 background: #0000FF;        
             }
+            .bid-value{
+                background-color: #FFFFFF;
+                color: #000000;
+                margin: 0px 0px 20px 0px;
+                border: 2px solid #242124;
+            }
+            .bid-value::before{
+                background: #000000;
+                height: 1100%; 
+            } 
             .withdraw-bid{
                 background-color: #36454F;
                 margin: 40px 0px 0px 0px;
             }
             .withdraw-bid::before{
-                background: #353935;        
+                background: #353935;     
             }
             .bid-now{
                 margin: 10px 0px 10px 0px;
@@ -459,7 +469,7 @@
                                     <div class="form">
                                         <div class="input-container ic1">
                                           <input id="name" class="input" type="text" placeholder=" " />
-                                          <div class="cut"></div>
+                                          <div class="cut cut-short"></div>
                                           <label for="name" class="placeholder">Name</label>
                                         </div>                                     
                                         <div class="input-container ic2">
@@ -468,13 +478,13 @@
                                             <option value="bowler">Bowler</option>
                                             <option value="all-rounder">All Rounder</option>                                              
                                           </select>
-                                          <div class="cut"></div>
+                                          <div class="cut cut-short"></div>
                                           <label for="type" class="placeholder">Type</label>
                                         </div>
                                         <div class="input-container ic2">
                                           <input id="price" class="input" type="text" placeholder=" " />
-                                          <div class="cut cut-short"></div>
-                                          <label for="price" class="placeholder">Price</label>
+                                          <div class="cut"></div>
+                                          <label for="price" class="placeholder">Price (ETH)</label>
                                         </div>
                                         <button id="register-button" type="text" class="submit">Register</button>
                                     </div>
@@ -636,7 +646,8 @@
                     genButton =  document.createElement('button');
                     genButton.id = "bid-player";
                     genButton.className = "submit bid-now";
-                    genButton.innerHTML =  auctionPhases[currentPhase];
+                    var nextBid = parseInt(player.currentBid)+1;
+                    genButton.innerHTML =  auctionPhases[currentPhase]+ " &nbsp (Next Bid : "+nextBid+")";
                     genButton.value = JSON.stringify(player);
 
                     phaseButton =  document.createElement('button');
@@ -644,6 +655,12 @@
                     phaseButton.className = "submit change-phase";
                     phaseButton.innerHTML =  "Change Phase";
                     phaseButton.value = JSON.stringify(player);
+
+                    bidValueButton =  document.createElement('button');
+                    bidValueButton.id = "bid-value";
+                    bidValueButton.className = "submit bid-value";
+                    bidValueButton.innerHTML =  "Get current bid value";
+                    bidValueButton.value = JSON.stringify(player);                   
 
                     element = document.getElementById('auction-player');
                     element.appendChild(nameTag);
@@ -654,6 +671,7 @@
                     element.appendChild(withdrawButton);       
                     element.appendChild(genButton);       
                     element.appendChild(phaseButton);  
+                    element.appendChild(bidValueButton);  
                     set = true; 
                 });        
             }
