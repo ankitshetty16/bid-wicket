@@ -48,7 +48,7 @@
       "type": "all-rounder",
       "price": "2",
       "currentBid": 2,
-      "sold": "",
+      "sold": 2,
       "purchasedBy": "0x87c5cb91f90fb961f2458553bbc9a8f91bab10a1",
       "start": "25th April - 4pm",
       "end": "25th April - 5pm",

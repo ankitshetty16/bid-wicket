@@ -629,7 +629,7 @@
 
                     currentBidSection = document.createElement('h2');
                     currentBidSection.className ="current-bid";
-                    currentBidSection.innerHTML = currentPhase != 2 ? (player.currentBid != "" ? "Current Bid : " +player.currentBid +" ETH" : "Price : " +player.price +" ETH"): "Sold for: "+player.sold;
+                    currentBidSection.innerHTML = currentPhase != 2 ? (player.currentBid != "" ? "Current Bid : " +player.currentBid +" ETH" : "Price : " +player.price +" ETH"): "Sold for: "+player.sold+" ETH";
                     
                     if (player.purchasedBy != ""){
                         currentBidder = document.createElement('h2');
@@ -647,7 +647,8 @@
                     genButton.id = "bid-player";
                     genButton.className = "submit bid-now";
                     var nextBid = parseInt(player.currentBid)+1;
-                    genButton.innerHTML =  auctionPhases[currentPhase]+ " &nbsp (Next Bid : "+nextBid+")";
+                    var extra = currentPhase == 1 && nextBid ? " &nbsp (Next Bid : "+nextBid+")": "";
+                    genButton.innerHTML =  auctionPhases[currentPhase]+ extra;
                     genButton.value = JSON.stringify(player);
 
                     phaseButton =  document.createElement('button');
