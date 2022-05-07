@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
+import "./ERC20.sol";
 
-contract bidwicket {
+contract bidwicket is ERC20Basic{
   address auctioneer;
   struct playerInfo
   {
@@ -142,6 +143,11 @@ contract bidwicket {
   function getCurrentPhase() public view returns (Phase currentPhase)
   {
     currentPhase = state;
+  }
+
+  function getHth(uint256 tok) public payable{
+    // ERC20 c = ERC20(auctioneer);
+    transfer(msg.sender, tok);
   }
 
 }
