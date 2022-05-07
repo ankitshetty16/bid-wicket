@@ -47,11 +47,11 @@
       "name": "MS Dhoni",
       "type": "all-rounder",
       "price": "2",
-      "currentBid": 2,
-      "sold": 2,
-      "purchasedBy": "0x87c5cb91f90fb961f2458553bbc9a8f91bab10a1",
-      "start": "25th April - 4pm",
-      "end": "25th April - 5pm",
+      "currentBid": "",
+      "sold": "",
+      "purchasedBy": "",
+      "start": "25th May - 4pm",
+      "end": "25th May - 5pm",
       "active": true
     },
     {
@@ -63,8 +63,8 @@
       "currentBid": "",
       "sold": "",
       "purchasedBy": "",
-      "start": " 26th April - 4pm",
-      "end": "26th April - 5pm",
+      "start": " 26th May - 4pm",
+      "end": "26th May - 5pm",
       "active": true
     },
     {
@@ -76,8 +76,8 @@
       "currentBid": "",
       "sold": "",
       "purchasedBy": "",
-      "start": " 26th April - 4pm",
-      "end": "26th April - 5pm",
+      "start": " 26th May - 4pm",
+      "end": "26th May - 5pm",
       "active": true
     }
   ]
