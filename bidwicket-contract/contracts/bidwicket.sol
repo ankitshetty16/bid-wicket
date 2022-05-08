@@ -86,19 +86,20 @@ contract bidwicket is ERC20Basic{
     auctioneer = msg.sender;
   }
   
-  function register(uint price) public payable alreadyRegistered buyerBalance
+  function register(uint price) public alreadyRegistered
   {
     playerMembership[msg.sender].price = price;
     playerMembership[msg.sender].registered = true;
     playerMembership[msg.sender].addr = payable(msg.sender);
     playerMembership[msg.sender].alreadySold = false;
+    transfer(auctioneer,1);
   }
 
-  function buy(address playerAddr) public payable onlyRegisteredPlayer(playerAddr) buyerBalance alreadySold(playerAddr)
+  function buy(address playerAddr) public onlyRegisteredPlayer(playerAddr) alreadySold(playerAddr)
   { 
-    uint amount = msg.value;
-    playerMembership[playerAddr].addr.transfer(amount);
     playerMembership[msg.sender].alreadySold = true;
+    transfer(playerMembership[playerAddr].addr,playerMembership[playerAddr].price);
+
   }
 
   function changePhase(Phase newPhase) public onlyAuctioneer
@@ -143,11 +144,6 @@ contract bidwicket is ERC20Basic{
   function getCurrentPhase() public view returns (Phase currentPhase)
   {
     currentPhase = state;
-  }
-
-  function getHth(uint256 tok) public payable{
-    // ERC20 c = ERC20(auctioneer);
-    transfer(msg.sender, tok);
   }
 
 }
