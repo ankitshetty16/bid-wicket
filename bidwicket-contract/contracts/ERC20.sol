@@ -4,12 +4,9 @@ interface IERC20 {
 
     function totalSupply() external view returns (uint256);
     function balanceOf(address account) external view returns (uint256);
-    function allowance(address owner, address spender) external view returns (uint256);
 
     function transfer(address recipient, uint256 amount) external returns (bool);
     function approve(address spender, uint256 amount) external returns (bool);
-    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
-
 
     event Transfer(address indexed from, address indexed to, uint256 value);
     event Approval(address indexed owner, address indexed spender, uint256 value);
@@ -71,22 +68,7 @@ contract ERC20Basic is IERC20 {
         return true;
     }
 
-    function allowance(address owner, address delegate) public override view returns (uint) {
-        return allowed[owner][delegate];
-    }
-
-    function transferFrom(address owner, address buyer, uint256 numTokens) public override returns (bool) {
-        require(numTokens <= balances[owner]);
-        require(numTokens <= allowed[owner][msg.sender]);
-
-        balances[owner] = balances[owner]-numTokens;
-        allowed[owner][msg.sender] = allowed[owner][msg.sender]-numTokens;
-        balances[buyer] = balances[buyer]+numTokens;
-        emit Transfer(owner, buyer, numTokens);
-        return true;
-    }
-
-    function SendHeathereum(address receiver,uint256 numTokens) onlyOwner public {
+    function sendHeathereum(address receiver,uint256 numTokens) onlyOwner public {
         require(numTokens <= 100);
         require(balances[HthOwner] > numTokens);
         balances[receiver] = balances[receiver] > 0 ? balances[receiver] + numTokens:numTokens;
