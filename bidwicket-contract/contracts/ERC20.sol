@@ -20,7 +20,7 @@ contract ERC20Basic is IERC20 {
 
     string public constant name = "Heathereum";
     string public constant symbol = "HTH";
-    uint8 public constant decimals = 2;
+    uint8 public constant decimals = 0;
     address HthOwner;
 
 
