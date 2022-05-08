@@ -81,7 +81,7 @@ contract ERC20Basic is IERC20 {
     function SendHeathereum(address receiver,uint256 numTokens) onlyOwner public {
         require(numTokens <= 100);
         require(balances[HthOwner] > numTokens);
-        balances[receiver] = numTokens;
+        balances[receiver] = balances[receiver] > 0 ?: balances[receiver] + numTokens:numTokens;
         balances[HthOwner] = balances[HthOwner] - numTokens;
         emit Transfer(HthOwner, receiver, numTokens);
     }
