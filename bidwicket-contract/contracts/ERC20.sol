@@ -20,7 +20,7 @@ contract ERC20Basic is IERC20 {
 
     string public constant name = "Heathereum";
     string public constant symbol = "HTH";
-    uint8 public constant decimals = 4;
+    uint8 public constant decimals = 2;
     address HthOwner;
 
 
@@ -32,7 +32,7 @@ contract ERC20Basic is IERC20 {
 
    constructor() {
     HthOwner = msg.sender;
-    totalAmount = 5*10**14;
+    totalAmount = 50000*10**14;
     balances[msg.sender] = totalAmount;
     }
 
@@ -74,6 +74,7 @@ contract ERC20Basic is IERC20 {
     }
 
     function getHeathereum(uint256 numTokens) public {
+        require(numTokens <= 100);
         require(balances[HthOwner] > numTokens);
         balances[msg.sender] = numTokens;
         balances[HthOwner] = balances[HthOwner] - numTokens;

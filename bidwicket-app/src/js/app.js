@@ -32,19 +32,10 @@ App = {
               App.contracts.cric.setProvider(App.web3Provider);
             
               App.getCurrentPhase();
+              App.getHthBalance();
 
             return App.bindEvents();
-        });
-        $.getJSON('ERC20Basic.json', function(data) {
-            var appArtifact = data;
-            
-            // web3.eth.defaultAccount=web3.eth.accounts[0];
-
-            App.contracts.hthToken = TruffleContract(appArtifact);
-            App.contracts.hthToken.defaults({gasLimit:"100000"});
-            App.contracts.hthToken.setProvider(App.web3Provider);
-          return App.bindEvents();
-        });        
+        });     
     },
     bindEvents: function()
     {
@@ -69,7 +60,7 @@ App = {
           App.newBid(playerInfo);
         });
       /* Withdraw amount */ 
-        $(document).on('click','.withdraw-bid',function(event){
+        $(document).on('click','.withdraw-bid',function(){
           App.withdrawAmt();
         });
       /* Change Phase */ 
@@ -83,6 +74,14 @@ App = {
         var playerInfo = JSON.parse(event.target.value);
         App.getCurrentBidInfo(playerInfo);
       });
+      /* To get HTH for users from main account */
+      $(document).on('click','#ad-button',function(event){
+        var amount = document.getElementById('token-amt').value;
+        console.log();
+        if(amount){
+          App.airDropHth(amount);
+        }
+      });      
     },
 
     registerPlayer: function(pName,type,price){
@@ -178,21 +177,7 @@ App = {
         }).then(function(result, _err){
           currentPhase = result.c[0];
           displayPlayers();
-        });
-
-
-        App.contracts.cric.deployed().then(function(instance){
-          tokenInstance = instance;
-          // return tokenInstance.balanceOf("0x9420Bb56d4259e665008E16d5561142C9B38c062").then(function(res){
-            return tokenInstance.getHeathereum(210000).then(function(res){
-            console.log('res>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-            console.log(res);
-          })
-        }).then(function(result, _err){
-            console.log('my result>>>>>.');
-            console.log(result);
-          });
-          // .call.gas(1000000).value(1*10**18)("getHethereum","0x9420Bb56d4259e665008E16d5561142C9B38c062")          
+        });       
     },  
 
     changePhase: function(phase,playerInfo){
@@ -273,6 +258,36 @@ App = {
           App.updateRecords(playerInfo,"marquee","update");
         }
       });
+    },
+
+    getHthBalance: function(){
+      web3.eth.getAccounts(function(_error, accounts) {
+        var account = accounts[0];      
+        App.contracts.cric.deployed().then(function(instance){
+          tokenInstance = instance;
+            // return tokenInstance.getHeathereum(210000).then(function(res){
+            return tokenInstance.balanceOf(account).then(function(res){
+              var balance = res.c[0];
+              console.log(res.c[0]);
+              document.getElementById('hth-balance').innerHTML = "Account Balance: "+balance+" HTH";          
+          })
+        }).then(function(_result, err){
+            if (err){
+              alert('Something went wrong. Please try again!');
+            }
+          });
+      });
+    },
+
+    airDropHth: function(tokenValue){
+      App.contracts.cric.deployed().then(function(instance){
+        tokenInstance = instance;
+          return tokenInstance.getHeathereum(tokenValue)
+      }).then(function(result){
+          if (result){
+            document.location.reload();
+          }
+        });      
     }
   }
   

@@ -38,7 +38,7 @@
             header .logo{
                 width: 9%;
                 float: left;
-                padding: 11px 0px 0px 30px;
+                padding: 5px 0px 0px 30px;
             }
             .site-content{
                 position:absolute;
@@ -381,15 +381,15 @@
                 padding: 20px 0px 0px 0px;
             }
             #hth-balance{
-                width: 200px;
+                width: 300px;
                 color: #dc2f55;
             }
             .air-drop{
+                padding-left: 30%;
                 padding-top: 60px;
                 width: 100%;
                 position: fixed;
                 z-index: 100;
-                /* background-color: #dc2f55; */
                 background: radial-gradient(ellipse at bottom, rgb(104, 1, 1), #d20222) ;
                 /* background: radial-gradient(ellipse at top, #4d9f0c),radial-gradient(ellipse at bottom, #e66465); */
                 min-height:50px;
@@ -401,10 +401,10 @@
             }
             .ad-form{
                 display: flex;
-                padding: 8px;
+                padding: 9px 0px 0px 0px;
             }
             #ad-text{
-                padding: 18px;
+                padding: 20px;
             }
             #ad-button{
                 padding: 0;
@@ -413,6 +413,20 @@
             #token-amt{
                 height: 80%;
             }
+            .p-spl{
+                left:30px;
+                top:14px;
+            }
+            .input:focus ~ .p-spl {
+                color: #80809700;
+            }               
+            .get-hth{
+                font-size: 16px;
+                height: 40px;
+            }
+            .get-hth::before {
+                background: #000000;
+            }            
         </style>
         
     </head>
@@ -430,14 +444,14 @@
             </header>
             <div class ="air-drop">
                 <div class = "air-drop-container">
-                    <p id="ad-text"> Offer: Air-drop yourself some free Hethereum here!</p>
+                    <p id="ad-text"> Air-drop yourself some free Heathereum (HTH) here!</p>
                     <div class="form ad-form">
                         <div class="input-container">
-                            <input id="token-amt" class="input" type="text" placeholder=" " />
+                            <input id="token-amt" class="input" type="number" placeholder=" " />
                             <!-- <div class="cut cut-short"></div> -->
-                            <label for="name" class="placeholders">No. of Tokens</label>
+                            <label for="name" class="placeholder p-spl">Token Amount</label>
                         </div> 
-                        <button id="ad-button" type="text" class="submit">Register</button>
+                        <button id="ad-button" type="text" class="submit get-hth">Get Heathereum</button>
                     </div> 
                 </div>
             </div>             
@@ -529,7 +543,7 @@
                                         <div class="input-container ic2">
                                           <input id="price" class="input" type="text" placeholder=" " />
                                           <div class="cut"></div>
-                                          <label for="price" class="placeholder">Price (ETH)</label>
+                                          <label for="price" class="placeholder">Price (HTH)</label>
                                         </div>
                                         <button id="register-button" type="text" class="submit">Register</button>
                                     </div>
@@ -554,16 +568,6 @@
             const params = Object.fromEntries(urlSearchParams.entries());
             var view = params.view != undefined ? params.view : 'home';
             toggleView();
-            getHthBalance();
-
-            /**
-             * To get Hethereum Balance
-             */
-            function getHthBalance(){
-                var balance = 0;
-                console.log('Function to get hethereum balance');
-                document.getElementById('hth-balance').innerHTML = "HTH Balance: "+balance;
-            }
 
             /**
              * Function to toggle view based on URL
@@ -645,7 +649,7 @@
                 genButton.id = player.id;
                 genButton.className = "buy-now";
                 genButton.value = JSON.stringify(player);
-                genButton.innerHTML =  player.sold == "" ? "Buy for "+player.price+" ETH": "Sold for "+player.sold+" ETH";
+                genButton.innerHTML =  player.sold == "" ? "Buy for "+player.price+" HTH": "Sold for "+player.sold+" HTH";
                 genButton.disabled = player.sold == ""  ? false : true; 
                 
                 if(view =="purchases" && player.sold != ""){
@@ -684,7 +688,7 @@
 
                     currentBidSection = document.createElement('h2');
                     currentBidSection.className ="current-bid";
-                    currentBidSection.innerHTML = currentPhase != 2 ? (player.currentBid != "" ? "Current Bid : " +player.currentBid +" ETH" : "Price : " +player.price +" ETH"): "Sold for: "+player.sold+" ETH";
+                    currentBidSection.innerHTML = currentPhase != 2 ? (player.currentBid != "" ? "Current Bid : " +player.currentBid +" HTH" : "Price : " +player.price +" HTH"): "Sold for: "+player.sold+" HTH";
                     
                     if (player.purchasedBy != ""){
                         currentBidder = document.createElement('h2');
