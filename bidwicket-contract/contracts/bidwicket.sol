@@ -106,7 +106,8 @@ contract bidwicket is ERC20Basic{
   { 
     if(state == Phase.done){
       address payable transferAcc = payable(currentPlayerInAuction);
-      transferAcc.transfer(currentBidValue);
+      //transferAcc.transfer(currentBidValue);
+      transferFromOwner(transferAcc,currentBidValue);
       currentBidValue = 0;
       buyers[currentPlayerInAuction].status = 0;
       buyers[currentPlayerInAuction].amount = 0;
@@ -115,22 +116,27 @@ contract bidwicket is ERC20Basic{
   }
 
 
-  function bid(address playerAddr) public payable newBid checkBidPhase buyerBalance returns (uint bidValue,address bidderAddress)
-  {
-    buyers[msg.sender].addr = payable(msg.sender);
-    buyers[msg.sender].amount = msg.value;
-    buyers[msg.sender].status = 1;
-    currentBidValue = msg.value;
-    currentBidderAddress = msg.sender;
-    bidValue = currentBidValue;
-    bidderAddress = currentBidderAddress;
-    currentPlayerInAuction = playerAddr;
+  function bid(address playerAddr, uint256 value) public newBid checkBidPhase returns (uint bidValue,address bidderAddress)
+  { 
+    bool res = transfer(auctioneer,value);
+    if(res == true)
+    {
+      buyers[msg.sender].addr = payable(msg.sender);
+      buyers[msg.sender].amount = value;
+      buyers[msg.sender].status = 1;
+      currentBidValue = value;
+      currentBidderAddress = msg.sender;
+      bidValue = currentBidValue;
+      bidderAddress = currentBidderAddress;
+      currentPlayerInAuction = playerAddr;
+    }
   }
 
   function withdraw() public payable alreadyBidded notCurrentHighestBidder
   { 
     uint amount = buyers[msg.sender].amount;
-    buyers[msg.sender].addr.transfer(amount);
+    //buyers[msg.sender].addr.transfer(amount);
+    transferFromOwner(buyers[msg.sender].addr,amount);
     buyers[msg.sender].status = 0;
     buyers[msg.sender].amount = 0;
   }
