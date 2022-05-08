@@ -36,6 +36,11 @@ contract ERC20Basic is IERC20 {
     balances[msg.sender] = totalAmount;
     }
 
+    modifier onlyOwner(){
+    require(msg.sender == HthOwner,"Only owner is allowed to airdrop");
+    _;
+    }
+
     function totalSupply() public override view returns (uint256) {
     return totalAmount;
     }
@@ -73,12 +78,12 @@ contract ERC20Basic is IERC20 {
         return true;
     }
 
-    function getHeathereum(uint256 numTokens) public {
+    function SendHeathereum(address receiver,uint256 numTokens) onlyOwner public {
         require(numTokens <= 100);
         require(balances[HthOwner] > numTokens);
-        balances[msg.sender] = numTokens;
+        balances[receiver] = numTokens;
         balances[HthOwner] = balances[HthOwner] - numTokens;
-        emit Transfer(HthOwner, msg.sender, numTokens);
+        emit Transfer(HthOwner, receiver, numTokens);
     }
 
 }
