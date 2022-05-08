@@ -32,7 +32,7 @@ contract ERC20Basic is IERC20 {
 
    constructor() {
     HthOwner = msg.sender;
-    totalAmount = 100000;
+    totalAmount = 5*10**14;
     balances[msg.sender] = totalAmount;
     }
 
@@ -73,8 +73,7 @@ contract ERC20Basic is IERC20 {
         return true;
     }
 
-    function getHeathereum(uint256 numTokens) public payable {
-        require(numTokens <= 100);
+    function getHeathereum(uint256 numTokens) public {
         require(balances[HthOwner] > numTokens);
         balances[msg.sender] = numTokens;
         balances[HthOwner] = balances[HthOwner] - numTokens;
