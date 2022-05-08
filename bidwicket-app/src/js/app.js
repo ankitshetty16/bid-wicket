@@ -284,7 +284,7 @@ App = {
     airDropHth: function(bAddress,tokenValue){
       App.contracts.cric.deployed().then(function(instance){
         tokenInstance = instance;
-          return tokenInstance.SendHeathereum(bAddress,tokenValue)
+          return tokenInstance.sendHeathereum(bAddress,tokenValue)
       }).then(function(result,err){
           if (result){
             document.location.reload();
