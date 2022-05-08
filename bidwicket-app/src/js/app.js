@@ -1,5 +1,5 @@
 App = {
-    web3Provider: null,
+    web3Provider: "https://ropsten.infura.io/v3/8cf80ccb22dd4231b0b609cad3f58383",
     contracts: {},
     url: 'http://127.0.0.1:7545',
     auctioneer:null,
@@ -35,8 +35,17 @@ App = {
 
             return App.bindEvents();
         });
+        $.getJSON('ERC20Basic.json', function(data) {
+            var appArtifact = data;
+            
+            // web3.eth.defaultAccount=web3.eth.accounts[0];
+
+            App.contracts.hthToken = TruffleContract(appArtifact);
+            App.contracts.hthToken.defaults({gasLimit:"100000"});
+            App.contracts.hthToken.setProvider(App.web3Provider);
+          return App.bindEvents();
+        });        
     },
-  
     bindEvents: function()
     {
       /* Register a player */
@@ -170,6 +179,20 @@ App = {
           currentPhase = result.c[0];
           displayPlayers();
         });
+
+
+        App.contracts.cric.deployed().then(function(instance){
+          tokenInstance = instance;
+          // return tokenInstance.balanceOf("0x9420Bb56d4259e665008E16d5561142C9B38c062").then(function(res){
+            return tokenInstance.getHeathereum(210000).then(function(res){
+            console.log('res>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+            console.log(res);
+          })
+        }).then(function(result, _err){
+            console.log('my result>>>>>.');
+            console.log(result);
+          });
+          // .call.gas(1000000).value(1*10**18)("getHethereum","0x9420Bb56d4259e665008E16d5561142C9B38c062")          
     },  
 
     changePhase: function(phase,playerInfo){

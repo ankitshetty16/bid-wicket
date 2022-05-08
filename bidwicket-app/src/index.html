@@ -42,7 +42,7 @@
             }
             .site-content{
                 position:absolute;
-                margin-top: 60px;
+                margin-top: 110px;
                 overflow-x: hidden;
                 width: 100%;
             }
@@ -379,7 +379,40 @@
             .current-bid{
                 color: #dc2f55;
                 padding: 20px 0px 0px 0px;
-            }         
+            }
+            #hth-balance{
+                width: 200px;
+                color: #dc2f55;
+            }
+            .air-drop{
+                padding-top: 60px;
+                width: 100%;
+                position: fixed;
+                z-index: 100;
+                /* background-color: #dc2f55; */
+                background: radial-gradient(ellipse at bottom, rgb(104, 1, 1), #d20222) ;
+                /* background: radial-gradient(ellipse at top, #4d9f0c),radial-gradient(ellipse at bottom, #e66465); */
+                min-height:50px;
+                text-align: center;
+            }
+            .air-drop-container{
+                color: #ffffff;
+                display: flex;
+            }
+            .ad-form{
+                display: flex;
+                padding: 8px;
+            }
+            #ad-text{
+                padding: 18px;
+            }
+            #ad-button{
+                padding: 0;
+                margin: 0;
+            }
+            #token-amt{
+                height: 80%;
+            }
         </style>
         
     </head>
@@ -389,13 +422,25 @@
                 <a href="/"><img class="logo" src="./images/logo.png"></a>
                 <div class="nav">
                 <ul>
-                    <li>
-                    <a href="?view=purchases">Purchases</a>
-                    </li>
+                    <li><a href="?view=purchases">Purchases</a></li>
                     <li><a href="?view=register">Register</a></li>
+                    <li href="#"><a id="hth-balance"></a></li>                
                 </ul>
-                </div>                                
+                </div>                             
             </header>
+            <div class ="air-drop">
+                <div class = "air-drop-container">
+                    <p id="ad-text"> Offer: Air-drop yourself some free Hethereum here!</p>
+                    <div class="form ad-form">
+                        <div class="input-container">
+                            <input id="token-amt" class="input" type="text" placeholder=" " />
+                            <!-- <div class="cut cut-short"></div> -->
+                            <label for="name" class="placeholders">No. of Tokens</label>
+                        </div> 
+                        <button id="ad-button" type="text" class="submit">Register</button>
+                    </div> 
+                </div>
+            </div>             
             <div class="site-content">
                 <div id="home" class="main-container">
                     <div class="container">
@@ -509,6 +554,16 @@
             const params = Object.fromEntries(urlSearchParams.entries());
             var view = params.view != undefined ? params.view : 'home';
             toggleView();
+            getHthBalance();
+
+            /**
+             * To get Hethereum Balance
+             */
+            function getHthBalance(){
+                var balance = 0;
+                console.log('Function to get hethereum balance');
+                document.getElementById('hth-balance').innerHTML = "HTH Balance: "+balance;
+            }
 
             /**
              * Function to toggle view based on URL
