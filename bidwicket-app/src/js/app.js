@@ -93,7 +93,7 @@ App = {
         App.contracts.cric.deployed().then(function(instance) 
         {
           cricInstance = instance;
-          return cricInstance.register(parseInt(price),{from: account, value: 1*10**18});
+          return cricInstance.register(parseInt(price),{from: account});
         }).then(function(result, _err){
           if(result){
               if(parseInt(result.receipt.status) == 1){
@@ -151,7 +151,7 @@ App = {
           {
               cricInstance = instance;
               price = parseInt(playerInfo.price);
-              return cricInstance.buy(playerInfo.pAddress,{from: account, value: price*10**18});
+              return cricInstance.buy(playerInfo.pAddress,{from: account});
           }).then(function(result, _err){
               if(result){
                   if(parseInt(result.receipt.status) == 1){
@@ -217,7 +217,7 @@ App = {
         {
             cricInstance = instance;
             price = playerInfo.currentBid != "" ? parseInt(playerInfo.currentBid)+1 :parseInt(playerInfo.price);
-            return cricInstance.bid(playerInfo.pAddress,{from: account, value: price*10**18});
+            return cricInstance.bid(playerInfo.pAddress, price,{from: account});
         }).then(function(result, _err){
             if(result && parseInt(result.receipt.status) == 1){
                 playerInfo.currentBid = price;
@@ -271,7 +271,6 @@ App = {
             // return tokenInstance.getHeathereum(210000).then(function(res){
             return tokenInstance.balanceOf(account).then(function(res){
               var balance = res.c[0];
-              console.log(res.c[0]);
               document.getElementById('hth-balance').innerHTML = "Account Balance: "+balance+" HTH";          
           })
         }).then(function(_result, err){
@@ -286,9 +285,12 @@ App = {
       App.contracts.cric.deployed().then(function(instance){
         tokenInstance = instance;
           return tokenInstance.SendHeathereum(bAddress,tokenValue)
-      }).then(function(result){
+      }).then(function(result,err){
           if (result){
             document.location.reload();
+          }
+          if (err){
+            alert("Only chairperson has access to Airdrop!");
           }
         });      
     }

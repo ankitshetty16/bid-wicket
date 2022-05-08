@@ -32,7 +32,7 @@ contract ERC20Basic is IERC20 {
 
    constructor() {
     HthOwner = msg.sender;
-    totalAmount = 50000*10**14;
+    totalAmount = 50000;
     balances[msg.sender] = totalAmount;
     }
 
