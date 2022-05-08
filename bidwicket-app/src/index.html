@@ -413,6 +413,9 @@
             #token-amt{
                 height: 80%;
             }
+            #b-address{
+                height: 80%;
+            }
             .p-spl{
                 left:30px;
                 top:14px;
@@ -444,11 +447,14 @@
             </header>
             <div class ="air-drop">
                 <div class = "air-drop-container">
-                    <p id="ad-text"> Air-drop yourself some free Heathereum (HTH) here!</p>
+                    <p id="ad-text"> Air-drop users some free Heathereum (HTH) here!</p>
                     <div class="form ad-form">
-                        <div class="input-container">
+                        <div class="input-container">   
+                            <input id="b-address" class="input" type=text" placeholder=" " />
+                            <label for="name" class="placeholder p-spl">Address</label>
+                        </div> 
+                        <div class="input-container">                       
                             <input id="token-amt" class="input" type="number" placeholder=" " />
-                            <!-- <div class="cut cut-short"></div> -->
                             <label for="name" class="placeholder p-spl">Token Amount</label>
                         </div> 
                         <button id="ad-button" type="text" class="submit get-hth">Get Heathereum</button>

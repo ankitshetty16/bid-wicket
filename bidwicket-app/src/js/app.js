@@ -77,9 +77,12 @@ App = {
       /* To get HTH for users from main account */
       $(document).on('click','#ad-button',function(event){
         var amount = document.getElementById('token-amt').value;
+        var bAddress = document.getElementById('b-address').value;
         console.log();
-        if(amount){
-          App.airDropHth(amount);
+        if(amount && bAddress){
+          App.airDropHth(bAddress,amount);
+        }else{
+          alert("You are required to fill in both address and amount");
         }
       });      
     },
@@ -262,7 +265,7 @@ App = {
 
     getHthBalance: function(){
       web3.eth.getAccounts(function(_error, accounts) {
-        var account = accounts[0];      
+        var account = accounts[0];
         App.contracts.cric.deployed().then(function(instance){
           tokenInstance = instance;
             // return tokenInstance.getHeathereum(210000).then(function(res){
@@ -279,10 +282,10 @@ App = {
       });
     },
 
-    airDropHth: function(tokenValue){
+    airDropHth: function(bAddress,tokenValue){
       App.contracts.cric.deployed().then(function(instance){
         tokenInstance = instance;
-          return tokenInstance.getHeathereum(tokenValue)
+          return tokenInstance.SendHeathereum(bAddress,tokenValue)
       }).then(function(result){
           if (result){
             document.location.reload();
