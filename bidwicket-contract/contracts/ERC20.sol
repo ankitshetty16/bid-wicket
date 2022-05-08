@@ -32,7 +32,7 @@ contract ERC20Basic is IERC20 {
 
    constructor() {
     HthOwner = msg.sender;
-    totalAmount = 50000;
+    totalAmount = 50000*10**14;
     balances[msg.sender] = totalAmount;
     }
 
@@ -69,6 +69,10 @@ contract ERC20Basic is IERC20 {
         allowed[msg.sender][delegate] = numTokens;
         emit Approval(msg.sender, delegate, numTokens);
         return true;
+    }
+
+    function allowance(address owner, address delegate) public override view returns (uint) {
+        return allowed[owner][delegate];
     }
 
     function transferFrom(address owner, address buyer, uint256 numTokens) public override returns (bool) {
